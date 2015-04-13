@@ -8,7 +8,12 @@ requirejs.config({
         underscore: "external/underscore-min",
 
         // app
-        app: "app"
+        app: "app",
+        "models/user" : "app/models/user",
+        "models/narrator" : "app/models/narrator",
+        "models/game_config" : "app/models/game_config",
+        "models/game" : "app/models/game"
+        
     }
 });
 

@@ -1,12 +1,14 @@
 define([
     "underscore",
-    "backbone"
+    "backbone",
+    "models/user"
 ],
 function (
     _,
-    Backbone
+    Backbone,
+    UserModel
     ) {
-    console.log("Hello World");
+    var user = new UserModel();
     return "testing";
 });
 
