@@ -9,6 +9,7 @@ requirejs.config({
 
         // app
         app: "app",
+        "models/player" : "app/models/player",
         "models/user" : "app/models/user",
         "models/narrator" : "app/models/narrator",
         "models/game_config" : "app/models/game_config",

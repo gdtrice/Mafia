@@ -1,10 +1,15 @@
 define([
-    "models/user"
+    "models/user",
+    "models/game"
 ],
 function (
-    User
+    User,
+    Game
     ) {
     return User.extend({
+        initialize: function() {
+            this.game = new GameModel(this.get("username"));
+        },
         startGame: function() {
             return;
         },
