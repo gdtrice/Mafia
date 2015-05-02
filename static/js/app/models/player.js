@@ -15,9 +15,10 @@ function (
         initialize: function() {
             // make this random
             this.set("id", 1);
+        },
+
+        setRole: function(role) {
+            this.role = role;
         }
     });
 });
-
-
-

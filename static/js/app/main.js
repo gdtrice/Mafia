@@ -12,5 +12,6 @@ function (
     var code = gc.createGame("eqre");
     p1Game = gc.joinGame(code, "newUserHere");
     p2Game = gc.joinGame(code, "newUserHere2");
+    p1Game.startGame();
 });
 

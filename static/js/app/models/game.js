@@ -11,6 +11,7 @@ function (
     return Backbone.Model.extend({
         initialize: function(id) {
             // make a backbone collection of users?
+            this.roles = ["mafia", "townsperson", "doctor"];
             this.players = [];
             this.id = id;
         },
@@ -21,7 +22,15 @@ function (
             this.players.push(newPlayer);
             // Success
             return true;  
+        },
+
+        startGame: function() {
+            var self = this;
+            _.each(this.players, function(player) {
+                // the server will push this data,
+                // when we have a real one
+                player.setRole(self.roles.pop());
+            });
         }
     });
 });
-
