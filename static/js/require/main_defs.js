@@ -6,6 +6,7 @@ requirejs.config({
         jquery: 'external/jquery-1.11.2.min',
         backbone: "external/backbone-min",
         underscore: "external/underscore-min",
+        react: "external/react-with-addons",
 
         // app
         app: "app",
@@ -18,4 +19,4 @@ requirejs.config({
     }
 });
 
-requirejs(["app/main"]);
+requirejs(["build/main"]);
