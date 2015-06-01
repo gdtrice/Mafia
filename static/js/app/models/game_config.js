@@ -1,12 +1,12 @@
 define([
     "backbone",
     "underscore",
-    "models/game"
+    "collections/games"
 ],
 function (
     Backbone,
     _,
-    Game
+    Games
     ) {
 
     // Mocking some the service for now...
@@ -19,10 +19,36 @@ function (
             this.games = [];
         },
 
-        createGame: function(username) {
-            this.gameCount--;
+        createGame: function(username, options) {
+            /*this.gameCount--;
             this.usedGameCodes.push(this.gameCount);
-            return this.gameCount;
+            return this.gameCount;*/
+
+
+            var newGame = {
+                "createDate": "test",
+                "startDate" : "test2",
+                "endDate"   : "test3",
+                "players": [
+                        {
+                            "name": username,
+                            "picture": "http://cat.jpg.to" 
+                        }
+                ]
+            };
+
+            var games = new Games();
+            var _options = options;
+            var createdGame = games.createNewGame(newGame,
+                                function(resp, status) {
+                                    console.log("Game create successfully");
+                                    _options.success(resp.id);
+                                },
+                                function(resp, status) {
+                                    console.log("Error!");
+                                    _options.error(resp, status);
+                                }
+                            ); 
         },
 
         joinGame: function(gameCode, username) {

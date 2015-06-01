@@ -18,7 +18,11 @@ requirejs.config({
         "models/game_config" : "app/models/game_config",
         "models/game" : "app/models/game",
 
+        // collections
+        "collections/games" : "app/collections/games",
+
         // views
+        // pointing to build for react jsx compiled files
         "views/config" : "build/views/config",
         "views/controller" : "build/views/controller",
     }

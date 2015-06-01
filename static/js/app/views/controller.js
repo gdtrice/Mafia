@@ -18,7 +18,7 @@ function (
         },
 
         render: function() {
-            if (_.isNumber(this.state.gameCode)) {
+            if (!_.isEmpty(this.state.gameCode)) {
                 return (<div> Game Code Recieved! {this.state.gameCode} </div>);
             } 
             return (

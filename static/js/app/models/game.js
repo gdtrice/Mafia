@@ -9,12 +9,14 @@ function (
     Player
     ) {
     return Backbone.Model.extend({
-        initialize: function(id) {
+        urlRoot: 'http://localhost:3000/games',
+        idAttribute: '_id',
+/*        initialize: function(id) {
             // make a backbone collection of users?
             this.roles = ["mafia", "townsperson", "doctor"];
             this.players = [];
             this.id = id;
-        },
+        }, */
 
         addPlayer: function(username, picture) {
             var newPlayer = new Player({ username: username,

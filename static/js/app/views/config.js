@@ -20,13 +20,18 @@ function (
 
         createGame: function(e) {
             e.preventDefault();
+
             // creating a fake username for now
             var username = "firstUser";
-
-            // TODO: createGame should probably automatically add this user...
-            var code = this.gameConfig.createGame(username);
-            var p1Game = this.gameConfig.joinGame(code, username);
-            this.props.onGameCodeRetrieved(code);
+            var self = this;
+            this.gameConfig.createGame(username, {
+                                       success: function(code) {
+                                           self.props.onGameCodeRetrieved(code);
+                                       },
+                                       error: function() {
+                                           console.log("View recieved an error");
+                                   }
+            });
         },
 
         render: function() {
