@@ -25,6 +25,7 @@ function (
         createNewGame: function(gameModel, successCb, errorCb) {
             if(_.isEmpty(gameModel)) {
                 console.log("gameModel is empty or undefined, game could not be created");
+                return;
             }
 
             this.create(gameModel, { 
@@ -32,6 +33,20 @@ function (
                     success: successCb, 
                     error: errorCb
             }); 
+        },
+
+        joinGame: function(gameCode, username, successCb, errorCb) {
+            if(_.isEmpty(gameCode) || _.isEmpty(username)) {
+                console.log("gameCode or username is empty or undefined, game could not be joined");
+                return;
+            }
+            // db.gamecollection.update({_id: ObjectId("556c24e75a35f88f16f5668a")}, {$push: { players: { name: "newGuy", picture: "newguy.jpg.to"}}});
+        },
+
+        // Hacky way to get a specific game until sever querying gets enabled
+        getGame: function(id) {
+            this.fetch({async: false});
+            return this.findWhere({"_id": id});
         }
     });
 });

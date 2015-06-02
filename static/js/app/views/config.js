@@ -14,8 +14,8 @@ function (
         joinGame: function(e) {
             e.preventDefault();
             var gameCode = React.findDOMNode(this.refs.gameCode).value.trim();
-            p2Game = this.gameConfig.joinGame(parseInt(gameCode, 10), "newUserHere2");
-            this.props.onGameCodeRetrieved(code);
+            p2Game = this.gameConfig.joinGame(gameCode, "newUserHere2");
+            this.props.onGameCodeRetrieved(gameCode);
         },
 
         createGame: function(e) {

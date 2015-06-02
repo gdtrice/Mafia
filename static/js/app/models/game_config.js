@@ -1,11 +1,13 @@
 define([
     "backbone",
     "underscore",
+    "models/game",
     "collections/games"
 ],
 function (
     Backbone,
     _,
+    Game,
     Games
     ) {
 
@@ -16,7 +18,8 @@ function (
         initialize: function() {
             this.gameCount = this.MAX_GAMES;
             this.usedGameCodes = [];
-            this.games = [];
+//            this.games = [];
+            this.games = new Games();
         },
 
         createGame: function(username, options) {
@@ -24,7 +27,7 @@ function (
             this.usedGameCodes.push(this.gameCount);
             return this.gameCount;*/
 
-
+            // This should be in Game model...
             var newGame = {
                 "createDate": "test",
                 "startDate" : "test2",
@@ -37,9 +40,8 @@ function (
                 ]
             };
 
-            var games = new Games();
             var _options = options;
-            var createdGame = games.createNewGame(newGame,
+            var createdGame = this.games.createNewGame(newGame,
                                 function(resp, status) {
                                     console.log("Game create successfully");
                                     _options.success(resp.id);
@@ -52,7 +54,7 @@ function (
         },
 
         joinGame: function(gameCode, username) {
-            if (!_.contains(this.usedGameCodes, gameCode)) {
+            /*if (!_.contains(this.usedGameCodes, gameCode)) {
                 console.log("error: this game code is invalid");
                 return null;
             }
@@ -75,7 +77,18 @@ function (
             }
 
             existingGame.addPlayer(username);
-            return existingGame;
+            return existingGame;*/
+
+            // need a better way to query for the game
+            var game = this.games.getGame(gameCode);
+            /*var joinedGame = this.games.joinGame(gameCode, username,
+                    function(resp, status) {
+                        console.log("game config: game joined!");
+                    },
+                    function(resp, status) {
+                        console.log("game config: error!");
+                    }
+                );*/
         }
     });
 });
