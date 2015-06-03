@@ -8,8 +8,7 @@ function (
         defaults: function() {
                 return {
                     username: "Empty Username",
-                    picture: "Insert url to default pic",
-                    id: null
+                    picture: "Insert url to default pic"
                 }
         },
         initialize: function() {
