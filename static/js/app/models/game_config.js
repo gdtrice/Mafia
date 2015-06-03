@@ -26,8 +26,9 @@ function (
             /*this.gameCount--;
             this.usedGameCodes.push(this.gameCount);
             return this.gameCount;*/
-
-            // This should be in Game model...
+            
+            var username = "testuser" + this._randomness();
+            // TODO: This should be in Game model...
             var newGame = {
                 "createDate": "test",
                 "startDate" : "test2",
@@ -54,41 +55,16 @@ function (
         },
 
         joinGame: function(gameCode, username) {
-            /*if (!_.contains(this.usedGameCodes, gameCode)) {
-                console.log("error: this game code is invalid");
-                return null;
-            }
+            // TODO: need a better way to query for the game
+            var username = "testuser" + this._randomness();
+            var game = this.games.joinGame(gameCode, username);
+            return game;
+        },
 
-            var existingGame = _.find(this.games, function(game) {
-                if(gameCode === game.id) {
-                    return game;
-                }
-            }); 
-
-            if(_.isEmpty(existingGame)) {
-                console.log("Code exists, but no game created yet. This is the first user for: " + gameCode);
-                var game = new Game(gameCode)
-                this.games.push(game);
-                game.addPlayer(username);
-
-                // a random user probably shouldn't get full
-                // access to a game, but hacking this up really quick.
-                return game;
-            }
-
-            existingGame.addPlayer(username);
-            return existingGame;*/
-
-            // need a better way to query for the game
-            var game = this.games.getGame(gameCode);
-            /*var joinedGame = this.games.joinGame(gameCode, username,
-                    function(resp, status) {
-                        console.log("game config: game joined!");
-                    },
-                    function(resp, status) {
-                        console.log("game config: error!");
-                    }
-                );*/
+        _randomness: function() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
         }
     });
 });

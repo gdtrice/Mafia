@@ -40,11 +40,16 @@ function (
                 console.log("gameCode or username is empty or undefined, game could not be joined");
                 return;
             }
+
+            // TODO: need a better way to query for the game
+            var game = this._getGame(gameCode);
+            game.addPlayer(username, 'picture');
+            return game;
             // db.gamecollection.update({_id: ObjectId("556c24e75a35f88f16f5668a")}, {$push: { players: { name: "newGuy", picture: "newguy.jpg.to"}}});
         },
 
         // Hacky way to get a specific game until sever querying gets enabled
-        getGame: function(id) {
+        _getGame: function(id) {
             this.fetch({async: false});
             return this.findWhere({"_id": id});
         }

@@ -1,9 +1,11 @@
 define([
     "react",
+    "underscore",
     "models/game_config"
 ],
 function (
     React,
+    _,
     GameConfig
     ) {
     return React.createClass({
@@ -14,8 +16,11 @@ function (
         joinGame: function(e) {
             e.preventDefault();
             var gameCode = React.findDOMNode(this.refs.gameCode).value.trim();
-            p2Game = this.gameConfig.joinGame(gameCode, "newUserHere2");
-            this.props.onGameCodeRetrieved(gameCode);
+            var joinedGame = this.gameConfig.joinGame(gameCode, "newUserHere2");
+            if(_.isEmpty(joinedGame)){
+                // error callback
+            };
+            this.props.onGameCodeRetrieved(joinedGame.id);
         },
 
         createGame: function(e) {

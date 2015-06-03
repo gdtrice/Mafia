@@ -20,6 +20,7 @@ requirejs.config({
 
         // collections
         "collections/games" : "app/collections/games",
+        "collections/players": "app/collections/players",
 
         // views
         // pointing to build for react jsx compiled files

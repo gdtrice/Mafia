@@ -1,16 +1,20 @@
 define([
     "backbone",
     "models/narrator",
-    "models/player"
+    "collections/players"
 ],
 function (
     Backbone,
     NarratorModel,
-    Player
+    PlayerCollection
     ) {
     return Backbone.Model.extend({
         urlRoot: 'http://localhost:3000/games',
         idAttribute: '_id',
+
+        initialize: function() {
+            this._players = new PlayerCollection(this.id, this.get('players'));
+        },
 /*        initialize: function(id) {
             // make a backbone collection of users?
             this.roles = ["mafia", "townsperson", "doctor"];
@@ -19,9 +23,10 @@ function (
         }, */
 
         addPlayer: function(username, picture) {
-            var newPlayer = new Player({ username: username,
-                                          picture: picture });
-            this.players.push(newPlayer);
+            var playerDict = { username: username,
+                               picture: picture };
+
+            this._players.addNewPlayer(playerDict);
             // Success
             return true;  
         },
