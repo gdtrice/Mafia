@@ -35,7 +35,7 @@ function (
             }); 
         },
 
-        joinGame: function(gameCode, username, successCb, errorCb) {
+        joinGame: function(gameCode, username, picture, successCb, errorCb) {
             if(_.isEmpty(gameCode) || _.isEmpty(username)) {
                 console.log("gameCode or username is empty or undefined, game could not be joined");
                 return;
@@ -43,7 +43,7 @@ function (
 
             // TODO: need a better way to query for the game
             var game = this._getGame(gameCode);
-            game.addPlayer(username, 'picture');
+            game.addPlayer(username, picture);
             return game;
             // db.gamecollection.update({_id: ObjectId("556c24e75a35f88f16f5668a")}, {$push: { players: { name: "newGuy", picture: "newguy.jpg.to"}}});
         },

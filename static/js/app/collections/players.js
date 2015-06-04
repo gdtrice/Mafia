@@ -18,6 +18,7 @@ function (
             this._gameId = gameId;
         },
         addNewPlayer: function(player) {
+            // TODO: make the sever respond with the returned row
             return this.create(player, {async: false});
         }
     });

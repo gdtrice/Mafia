@@ -20,7 +20,7 @@ function (
             if(_.isEmpty(joinedGame)){
                 // error callback
             };
-            this.props.onGameCodeRetrieved(joinedGame.id);
+            this.props.onGameCodeRetrieved(joinedGame);
         },
 
         createGame: function(e) {
@@ -30,8 +30,8 @@ function (
             var username = "firstUser";
             var self = this;
             this.gameConfig.createGame(username, {
-                                       success: function(code) {
-                                           self.props.onGameCodeRetrieved(code);
+                                       success: function(game) {
+                                           self.props.onGameCodeRetrieved(game);
                                        },
                                        error: function() {
                                            console.log("View recieved an error");

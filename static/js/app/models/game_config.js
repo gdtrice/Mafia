@@ -14,6 +14,14 @@ function (
     // Mocking some the service for now...
     return Backbone.Model.extend({
         MAX_GAMES: 100,
+        IMAGES: [
+            "https://pbs.twimg.com/profile_images/450834967166070784/QeQgc7ZF_400x400.jpeg",
+            "https://pbs.twimg.com/profile_images/585565077207678977/N_eNSBXi_400x400.jpg",
+            "https://pbs.twimg.com/profile_images/566325718330511360/ggWoZsVl_400x400.jpeg",
+            "https://pbs.twimg.com/profile_images/378800000189727654/ab49635c2ea63d32c066c899e21fa8ce_400x400.jpeg",
+            "https://pbs.twimg.com/profile_images/581580930520727552/hE2LErp8_400x400.jpg",
+            "https://pbs.twimg.com/profile_images/543489020508921856/hM1FwyAO_reasonably_small.jpeg"
+        ],
 
         initialize: function() {
             this.gameCount = this.MAX_GAMES;
@@ -28,6 +36,7 @@ function (
             return this.gameCount;*/
             
             var username = "testuser" + this._randomness();
+            var picture = _.sample(this.IMAGES); 
             // TODO: This should be in Game model...
             var newGame = {
                 "createDate": "test",
@@ -36,7 +45,7 @@ function (
                 "players": [
                         {
                             "name": username,
-                            "picture": "http://cat.jpg.to" 
+                            "picture": picture
                         }
                 ]
             };
@@ -45,7 +54,7 @@ function (
             var createdGame = this.games.createNewGame(newGame,
                                 function(resp, status) {
                                     console.log("Game create successfully");
-                                    _options.success(resp.id);
+                                    _options.success(resp);
                                 },
                                 function(resp, status) {
                                     console.log("Error!");
@@ -54,10 +63,11 @@ function (
                             ); 
         },
 
-        joinGame: function(gameCode, username) {
+        joinGame: function(gameCode, username, picture) {
             // TODO: need a better way to query for the game
             var username = "testuser" + this._randomness();
-            var game = this.games.joinGame(gameCode, username);
+            var picture = _.sample(this.IMAGES); 
+            var game = this.games.joinGame(gameCode, username, picture);
             return game;
         },
 

@@ -1,25 +1,29 @@
 define([
     "underscore",
     "react",
-    "views/config"
+    "views/config",
+    "views/game_room"
 ],
 function (
     _,
     React,
-    ConfigView
+    ConfigView,
+    GameRoomView
     ) {
     return React.createClass({
         getInitialState: function() {
-            return {gameCode: ""};
+            return {game: ""};
         },
 
-        loadGameView: function(gameCode) {
-            this.setState({gameCode: gameCode});
+        loadGameView: function(game) {
+            this.setState({game: game});
         },
 
         render: function() {
-            if (!_.isEmpty(this.state.gameCode)) {
-                return (<div> Game Code Recieved! {this.state.gameCode} </div>);
+            if (!_.isEmpty(this.state.game)) {
+                return (
+                    <GameRoomView game={this.state.game} />
+                );
             } 
             return (
                 <ConfigView onGameCodeRetrieved={this.loadGameView}/>

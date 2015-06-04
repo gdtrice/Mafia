@@ -23,12 +23,12 @@ function (
         }, */
 
         addPlayer: function(username, picture) {
-            var playerDict = { username: username,
+            var playerDict = { name: username,
                                picture: picture };
 
-            this._players.addNewPlayer(playerDict);
-            // Success
-            return true;  
+            var newPlayer = this._players.addNewPlayer(playerDict);
+            this.get('players').push(newPlayer.attributes);
+            return newPlayer;
         },
 
         startGame: function() {
