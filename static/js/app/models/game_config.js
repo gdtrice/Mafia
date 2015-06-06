@@ -20,7 +20,12 @@ function (
             "https://pbs.twimg.com/profile_images/566325718330511360/ggWoZsVl_400x400.jpeg",
             "https://pbs.twimg.com/profile_images/378800000189727654/ab49635c2ea63d32c066c899e21fa8ce_400x400.jpeg",
             "https://pbs.twimg.com/profile_images/581580930520727552/hE2LErp8_400x400.jpg",
-            "https://pbs.twimg.com/profile_images/543489020508921856/hM1FwyAO_reasonably_small.jpeg"
+            "https://pbs.twimg.com/profile_images/543489020508921856/hM1FwyAO_reasonably_small.jpeg",
+            "http://weknowmemes.com/wp-content/uploads/2012/06/i-feel-it.jpg",
+            "http://static.comicvine.com/uploads/original/5/50639/3377081-walter+white.jpg",
+            "http://www.adweek.com/files/blogs/old-spice-terry-crews-brain-explodes.jpg",
+            "http://s3.jspenguin.org/dodgeball_fran.jpeg",
+            "http://i0.kym-cdn.com/photos/images/facebook/000/017/382/1250991947631.jpg",
         ],
 
         initialize: function() {
