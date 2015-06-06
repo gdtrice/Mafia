@@ -29,6 +29,7 @@ function (
                 "createDate": "test",
                 "startDate" : "test2",
                 "endDate"   : "test3",
+                "createdBy" : username,
                 "players": [
                         {
                             "name": username,

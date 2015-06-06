@@ -12,17 +12,17 @@ function (
     ) {
     return React.createClass({
         getInitialState: function() {
-            return {game: ""};
+            return {game: "" , currentPlayer: ""};
         },
 
-        loadGameView: function(game) {
-            this.setState({game: game});
+        loadGameView: function(data) {
+            this.setState(data);
         },
 
         render: function() {
             if (!_.isEmpty(this.state.game)) {
                 return (
-                    <GameRoomView game={this.state.game} />
+                    <GameRoomView game={this.state.game} currentPlayer={this.state.currentPlayer} />
                 );
             } 
             return (

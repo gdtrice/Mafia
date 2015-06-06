@@ -1,12 +1,14 @@
 define([
     "react",
     "underscore",
-    "models/game_config"
+    "models/game_config",
+    "models/player"
 ],
 function (
     React,
     _,
-    GameConfig
+    GameConfig,
+    PlayerModel
     ) {
     return React.createClass({
         IMAGES: [
@@ -39,7 +41,8 @@ function (
             if(_.isEmpty(joinedGame)){
                 // error callback
             };
-            this.props.onGameCodeRetrieved(joinedGame);
+            var currentPlayer = new PlayerModel({username: username, picture: picture});
+            this.props.onGameCodeRetrieved({game: joinedGame, currentPlayer: currentPlayer});
         },
 
         createGame: function(e) {
@@ -51,7 +54,8 @@ function (
             var self = this;
             this.gameConfig.createGame(username, picture, {
                                        success: function(game) {
-                                           self.props.onGameCodeRetrieved(game);
+                                           var currentPlayer = new PlayerModel({username: username, picture: picture});
+                                           self.props.onGameCodeRetrieved({game: game, currentPlayer: currentPlayer});
                                        },
                                        error: function() {
                                            console.log("View recieved an error");

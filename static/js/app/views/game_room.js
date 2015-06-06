@@ -32,11 +32,23 @@ function (
         },
 
         render: function() {
+            if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
+             // Show start button
+             return (
+                    <div className="game-room">
+                        <div>Game Room: { this.state.game.id }</div>
+                        <div>Current Players:</div>
+                        <PlayerList players={ this.state.game.get('players') } />
+                        <div> Start Button </div>
+                    </div>
+                );
+            }
+
             return (
                 <div className="game-room">
                     <div>Game Room: { this.state.game.id }</div>
                     <div>Current Players:</div>
-                    <PlayerList players={ this.state.game.get("players") } />
+                    <PlayerList players={ this.state.game.get('players') } />
                 </div>
             );
         }
