@@ -49,6 +49,7 @@ function (
                     <div>Game Room: { this.state.game.id }</div>
                     <div>Current Players:</div>
                     <PlayerList players={ this.state.game.get('players') } />
+                    <div> Waiting for { this.state.game.get('createdBy') } to start the game... </div>
                 </div>
             );
         }
