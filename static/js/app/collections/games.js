@@ -42,16 +42,10 @@ function (
             }
 
             // TODO: need a better way to query for the game
-            var game = this._getGame(gameCode);
+            var game = new this.model({_id: gameCode});
+            game.fetch({async: false});
             game.addPlayer(username, picture);
             return game;
-            // db.gamecollection.update({_id: ObjectId("556c24e75a35f88f16f5668a")}, {$push: { players: { name: "newGuy", picture: "newguy.jpg.to"}}});
-        },
-
-        // Hacky way to get a specific game until sever querying gets enabled
-        _getGame: function(id) {
-            this.fetch({async: false});
-            return this.findWhere({"_id": id});
         }
     });
 });
