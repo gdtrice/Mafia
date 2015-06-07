@@ -22,7 +22,7 @@ function (
             var playerDict = { username: username,
                                picture: picture };
 
-            this.get('players').addNewPlayer(playerDict);
+            var newPlayer = this.get('players').addNewPlayer(playerDict);
             return newPlayer;
         },
 
@@ -48,7 +48,7 @@ function (
 
         getPlayerRole: function(username) {
             var user = this.get('players').findWhere({ username: username});
-            return user.get('role');
+            return user;
         }
     });
 });

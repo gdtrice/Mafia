@@ -51,17 +51,21 @@ function (
         render: function() {
             if (_.isNumber(this.state.game.get('startDate'))) {
                 clearInterval(this.poll);
-                var currentPlayerRole = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));
-                switch (currentPlayerRole) {
+                // This is hacky, props.currentPlayer should continuosly update...
+                var currentPlayer = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));
+                switch (currentPlayer.get('role').name) {
                     case 'mafia':
-                        <MafiaView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
-                        break;
+                        return (
+                                <MafiaView currentPlayer={ currentPlayer } game={this.state.game} />
+                        );
                     case 'detective': 
-                        <DetectiveView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
-                        break;
+                        return (
+                                <DetectiveView currentPlayer={ currentPlayer } game={this.state.game} />
+                        );
                     case 'townsperson':
-                        <TownspersonView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
-                        break;
+                        return (
+                                <TownspersonView currentPlayer={ currentPlayer } game={this.state.game} />
+                        );
                     default:
                         console.log('Invalid Role!!!');
                 }
