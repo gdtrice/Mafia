@@ -14,8 +14,8 @@ function (
         },
         model: Player,
 
-        initialize: function(gameId, players) {
-            this._gameId = gameId;
+        initialize: function(players, options) {
+            this._gameId = options.gameId;
         },
         addNewPlayer: function(player) {
             // TODO: make the sever respond with the returned row

@@ -11,8 +11,8 @@ function (
     return React.createClass({
         render: function() {
             var playerItems = [];
-            _.each(this.props.players, function(item) {
-                playerItems.push(<PlayerItemView key={item.username} player={ item } />);
+            this.props.players.each(function(item) {
+                playerItems.push(<PlayerItemView key={item.get('username')} player={ item } />);
             });
 
             return (

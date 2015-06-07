@@ -1,14 +1,20 @@
 define([
     "react",
     "underscore",
-    "views/player_list",
     "models/game",
+    "views/player_list",
+    "views/mafia",
+    "views/detective",
+    "views/townsperson"
 ],
 function (
     React,
     _,
+    GameModel,
     PlayerList,
-    GameModel
+    MafiaView,
+    DetectiveView,
+    TownspersonView
     ) {
     return React.createClass({
         POLL_INTERVAL: 3000, // 3 seconds
@@ -45,12 +51,21 @@ function (
         render: function() {
             if (_.isNumber(this.state.game.get('startDate'))) {
                 clearInterval(this.poll);
-                return (
-                    <div> the game has started, prepare yourself! </div>
-                );
-            }
-
-            if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
+                var currentPlayerRole = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));
+                switch (currentPlayerRole) {
+                    case 'mafia':
+                        <MafiaView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
+                        break;
+                    case 'detective': 
+                        <DetectiveView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
+                        break;
+                    case 'townsperson':
+                        <TownspersonView currentPlayerRole={ currentPlayerRole } game={this.state.game} />
+                        break;
+                    default:
+                        console.log('Invalid Role!!!');
+                }
+            } else if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
              // Show start button
              return (
                     <div className="game-room">
