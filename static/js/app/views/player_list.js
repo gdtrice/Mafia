@@ -12,7 +12,7 @@ function (
         render: function() {
             var playerItems = [];
             _.each(this.props.players, function(item) {
-                playerItems.push(<PlayerItemView player= { item } />);
+                playerItems.push(<PlayerItemView key={item.username} player={ item } />);
             });
 
             return (
@@ -25,5 +25,3 @@ function (
         }
     });
 });
-
-

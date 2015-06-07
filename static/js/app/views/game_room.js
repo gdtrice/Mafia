@@ -1,10 +1,12 @@
 define([
     "react",
+    "underscore",
     "views/player_list",
     "models/game",
 ],
 function (
     React,
+    _,
     PlayerList,
     GameModel
     ) {
@@ -16,10 +18,19 @@ function (
         },
 
         componentDidMount: function() {
-            setInterval(this.loadPlayers, this.POLL_INTERVAL);
+            this.poll = setInterval(this.loadPlayers, this.POLL_INTERVAL);
         },
 
         loadPlayers: function() {
+            this._updateGameState();            
+        },
+
+        startGame: function() {
+            this.props.game.startGame();
+            this.setState({game: this.props.game});
+        },
+
+        _updateGameState: function() {
             var self = this;
             this.props.game.fetch({
                 success: function(resp, status) {
@@ -32,6 +43,13 @@ function (
         },
 
         render: function() {
+            if (_.isNumber(this.state.game.get('startDate'))) {
+                clearInterval(this.poll);
+                return (
+                    <div> the game has started, prepare yourself! </div>
+                );
+            }
+
             if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
              // Show start button
              return (
@@ -39,7 +57,7 @@ function (
                         <div>Game Room: { this.state.game.id }</div>
                         <div>Current Players:</div>
                         <PlayerList players={ this.state.game.get('players') } />
-                        <button type="button"> Start Button </button>
+                        <button type="button" onClick={this.startGame}> Start Button </button>
                     </div>
                 );
             }

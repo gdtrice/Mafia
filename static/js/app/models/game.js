@@ -15,12 +15,6 @@ function (
         initialize: function() {
             this._players = new PlayerCollection(this.id, this.get('players'));
         },
-/*        initialize: function(id) {
-            // make a backbone collection of users?
-            this.roles = ["mafia", "townsperson", "doctor"];
-            this.players = [];
-            this.id = id;
-        }, */
 
         addPlayer: function(username, picture) {
             var playerDict = { username: username,
@@ -33,11 +27,19 @@ function (
 
         startGame: function() {
             var self = this;
-            _.each(this.players, function(player) {
-                // the server will push this data,
-                // when we have a real one
-                player.setRole(self.roles.pop());
-            });
+            $.ajax({
+                async: false,
+                url: self.urlRoot + "/" + self.id + "/start",
+                success: function(resp) {
+                    self.set({
+                        startDate: resp.startDate,
+                        players: resp.players});
+                    return self;
+                },
+                error: function(resp) {
+                    console.log('error occured');
+                }
+            }); 
         }
     });
 });
