@@ -13,7 +13,7 @@ function (
             return (
                 <li>
                     <img id="user-pic" style={{ width: tempStyle.width, height: tempStyle.height }} src={ this.props.player.picture }></img>
-                    <div id="username">{ this.props.player.name }</div>
+                    <div id="username">{ this.props.player.username }</div>
                 </li>
             );
         }

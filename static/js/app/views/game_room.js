@@ -39,7 +39,7 @@ function (
                         <div>Game Room: { this.state.game.id }</div>
                         <div>Current Players:</div>
                         <PlayerList players={ this.state.game.get('players') } />
-                        <div> Start Button </div>
+                        <button type="button"> Start Button </button>
                     </div>
                 );
             }

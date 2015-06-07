@@ -26,13 +26,10 @@ function (
             
             // TODO: This should be in Game model...
             var newGame = {
-                "createDate": "test",
-                "startDate" : "test2",
-                "endDate"   : "test3",
                 "createdBy" : username,
                 "players": [
                         {
-                            "name": username,
+                            "username": username,
                             "picture": picture
                         }
                 ]

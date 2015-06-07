@@ -23,7 +23,7 @@ function (
         }, */
 
         addPlayer: function(username, picture) {
-            var playerDict = { name: username,
+            var playerDict = { username: username,
                                picture: picture };
 
             var newPlayer = this._players.addNewPlayer(playerDict);
