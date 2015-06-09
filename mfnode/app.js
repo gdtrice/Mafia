@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/mfnode');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -22,6 +26,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+    req.db = db;
+    // For DEVELOPMENT ONLY (gtrice)
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    next();
+});
 app.use('/', routes);
 app.use('/users', users);
 
@@ -58,3 +75,4 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
