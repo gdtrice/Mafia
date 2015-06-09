@@ -9,7 +9,7 @@ function (
     PlayerCollection
     ) {
     return Backbone.Model.extend({
-        urlRoot: 'http://localhost:3000/games',
+        urlRoot: '/games',
         idAttribute: '_id',
 
         parse: function(json) {

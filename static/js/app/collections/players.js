@@ -10,7 +10,7 @@ function (
     ) {
     return Backbone.Collection.extend({
         url: function() {
-            return 'http://localhost:3000/games/' + this._gameId + '/players';
+            return '/games/' + this._gameId + '/players';
         },
         model: Player,
 

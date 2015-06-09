@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('underscore');
+var path = require('path');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Mafia' });
+  var index = path.join(__dirname, '../..', 'index.html');
+  res.sendFile(index);
 });
 
 /* GET to Avaliable Games */

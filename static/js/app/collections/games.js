@@ -11,7 +11,7 @@ function (
     Game
     ) {
     return Backbone.Collection.extend({
-        url: 'http://localhost:3000/games',
+        url: '/games',
         model: Game,
 
         initialize: function(id) {
