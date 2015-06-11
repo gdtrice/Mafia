@@ -7,6 +7,7 @@ requirejs.config({
         backbone: "external/backbone-min",
         underscore: "external/underscore-min",
         react: "external/react-with-addons",
+        "socket.io": "../../socket.io/socket.io",
 
         // app
         app: "app",
