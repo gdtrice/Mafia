@@ -31,6 +31,7 @@ requirejs.config({
         "views/player_list" : "build/views/player_list",
         "views/mafia" : "build/views/mafia",
         "views/detective" : "build/views/detective",
+        "views/doctor" : "build/views/doctor",
         "views/townsperson" : "build/views/townsperson",
         "views/player_item" : "build/views/player_item"
     }

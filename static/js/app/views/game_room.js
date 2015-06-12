@@ -5,6 +5,7 @@ define([
     "views/player_list",
     "views/mafia",
     "views/detective",
+    "views/doctor",
     "views/townsperson"
 ],
 function (
@@ -14,6 +15,7 @@ function (
     PlayerList,
     MafiaView,
     DetectiveView,
+    DoctorView,
     TownspersonView
     ) {
     return React.createClass({
@@ -61,6 +63,10 @@ function (
                     case 'detective': 
                         return (
                                 <DetectiveView currentPlayer={ currentPlayer } game={this.state.game} />
+                        );
+                    case 'doctor': 
+                        return (
+                                <DoctorView currentPlayer={ currentPlayer } game={this.state.game} />
                         );
                     case 'townsperson':
                         return (

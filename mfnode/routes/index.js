@@ -79,17 +79,25 @@ router.get('/games/:id/start', function(req, res) {
         var document = docs[0];
         if (_.isEmpty(document.startDate)) {
             var players = document.players;
-            // HACKY...
-            // assign each player as townsperson the grab a random player and 
-            // assign as mafia
+            // could be better...
+            // assign everyone as townsperson, then sample players from the array, assign a mafia, doc, and detective
             _.each(players, function(player) {
                 player.role = { name: 'townsperson',
                                 picture: 'http://www.renfair.com/images/nyrf_amenities.jpg'
                             };
             });
-            var mafia = _.sample(players);
-            mafia.role = { name: 'mafia',
-                           picture: 'http://www.abcjogos.com.br/wp-content/uploads/2011/12/The-Godfather.jpg?7de635'
+
+            var actionRolePlayers = _.sample(players, 3);
+            actionRolePlayers[0].role = {name: 'mafia',
+                                         picture: 'http://www.abcjogos.com.br/wp-content/uploads/2011/12/The-Godfather.jpg?7de635'
+                        };
+
+            actionRolePlayers[1].role = {name: 'doctor',
+                                             picture: 'http://www.how-to-draw-cartoons-online.com/image-files/cartoon-doctor-16.gif'
+                        };
+
+            actionRolePlayers[2].role = {name: 'detective',
+                                             picture: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQJeD7EIjfiy_IcOI0dguTrKtfVlFmnDUSM9UKVM8QLNhzaaOMkXw'
                         };
 
             collection.update({ _id: req.params.id },{$set: {players: players, startDate: Date.now()}}, console.log);
