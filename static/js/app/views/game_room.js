@@ -53,6 +53,7 @@ function (
         render: function() {
             if (_.isNumber(this.state.game.get('startDate'))) {
                 clearInterval(this.poll);
+                var stateDiv = (<div></div>);
                 // This is hacky, props.currentPlayer should continuosly update...
                 var currentPlayer = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));
                 switch (currentPlayer.get('role').name) {
@@ -76,15 +77,13 @@ function (
                         console.log('Invalid Role!!!');
                 }
             } else if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
-             // Show start button
-             return (
-                    <div className="game-room">
-                        <div>Game Room: { this.state.game.id }</div>
-                        <div>Current Players:</div>
-                        <PlayerList players={ this.state.game.get('players') } />
-                        <button type="button" onClick={this.startGame}> Start Button </button>
-                    </div>
-                );
+                if(this.state.game.get('players').length < 3) {
+                    stateDiv = (<div>Waiting for other players to join</div>);
+                } else {
+                    stateDiv = (<button type="button" onClick={this.startGame}> Start Button </button>);
+                }
+            } else {
+                stateDiv = (<div> Waiting for { this.state.game.get('createdBy') } to start the game... </div>);
             }
 
             return (
@@ -92,7 +91,7 @@ function (
                     <div>Game Room: { this.state.game.id }</div>
                     <div>Current Players:</div>
                     <PlayerList players={ this.state.game.get('players') } />
-                    <div> Waiting for { this.state.game.get('createdBy') } to start the game... </div>
+                    { stateDiv }
                 </div>
             );
         }
