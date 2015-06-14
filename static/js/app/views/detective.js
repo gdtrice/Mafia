@@ -2,13 +2,13 @@ define([
     "react",
     "underscore",
     "socket.io",
-    "views/player_list"
+    "views/player_picker_list"
 ],
 function (
     React,
     _,
     io,
-    PlayerListView
+    PlayerPickerListView
     ) {
     return React.createClass({
         componentDidMount: function() {
@@ -22,6 +22,9 @@ function (
             return {nightAction: false,
                     nightWait: false,
                     day: false};
+        },
+
+        investigatePlayer: function(player) {
         },
 
         _renderNightAction: function(data) {
@@ -38,7 +41,7 @@ function (
                 return (
                     <div>
                         <div> Its night time player...who do you think the mafia is? </div>
-                        <PlayerListView players={ this.props.game.get('players') } />
+                        <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.investigatePlayer } />
                     </div>
                 );
             } else if (this.state.nightWait === true) {
