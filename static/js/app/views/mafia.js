@@ -2,13 +2,13 @@ define([
     "react",
     "underscore",
     "socket.io",
-    "views/player_list"
+    "views/player_picker_list"
 ],
 function (
     React,
     _,
     io,
-    PlayerListView
+    PlayerPickerListView
     ) {
     return React.createClass({
         componentDidMount: function() {
@@ -38,7 +38,7 @@ function (
                 return (
                     <div>
                         <div> Its night time player...who do you want to kill? </div>
-                        <PlayerListView players={ this.props.game.get('players') } />
+                        <PlayerPickerListView players={ this.props.game.get('players') } />
                     </div>
                 );
             } else if (this.state.nightWait === true) {

@@ -33,6 +33,8 @@ requirejs.config({
         "views/detective" : "build/views/detective",
         "views/doctor" : "build/views/doctor",
         "views/townsperson" : "build/views/townsperson",
+        "views/player_picker_list" : "build/views/player_picker_list",
+        "views/player_picker_item" : "build/views/player_picker_item",
         "views/player_item" : "build/views/player_item"
     }
 });
