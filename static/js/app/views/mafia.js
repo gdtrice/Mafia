@@ -23,6 +23,10 @@ function (
                     day: false};
         },
 
+        killPlayer: function(player) {
+            // hit socket to kill player
+        },
+
         _renderNightAction: function(data) {
             this.setState({nightAction: true,
                            nightWait: false});
@@ -38,7 +42,7 @@ function (
                 return (
                     <div>
                         <div> Its night time player...who do you want to kill? </div>
-                        <PlayerPickerListView players={ this.props.game.get('players') } />
+                        <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.killPlayer } />
                     </div>
                 );
             } else if (this.state.nightWait === true) {
@@ -60,5 +64,3 @@ function (
         }
     });
 });
-
-
