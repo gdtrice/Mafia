@@ -2,13 +2,13 @@ define([
     "react",
     "underscore",
     "socket.io",
-    "views/player_list"
+    "views/player_picker_list"
 ],
 function (
     React,
     _,
     io,
-    PlayerListView
+    PlayerPickerListView
     ) {
     return React.createClass({
         componentDidMount: function() {
@@ -16,6 +16,10 @@ function (
             this.socket.on('night_action', this._renderNightAction);
             // TODO: change kill event for doc
             this.socket.on('kill_registered', this._renderNightWait);
+        },
+
+        savePlayerLife: function(player) {
+            // save player
         },
 
         getInitialState: function() {
@@ -38,7 +42,7 @@ function (
                 return (
                     <div>
                         <div> Its night time player...save someones life! </div>
-                        <PlayerListView players={ this.props.game.get('players') } />
+                        <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.savePlayerLife } />
                     </div>
                 );
             } else if (this.state.nightWait === true) {
