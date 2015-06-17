@@ -23,6 +23,7 @@ function (
             "http://www.adweek.com/files/blogs/old-spice-terry-crews-brain-explodes.jpg",
             "http://s3.jspenguin.org/dodgeball_fran.jpeg",
             "http://i0.kym-cdn.com/photos/images/facebook/000/017/382/1250991947631.jpg",
+            "https://pbs.twimg.com/media/CEGlLktUEAA-eVD.jpg",
         ],
 
         componentDidMount: function() {
