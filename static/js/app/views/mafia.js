@@ -47,7 +47,7 @@ function (
                 );
             } else if (this.state.nightWait === true) {
                 return (
-                        <div> Night time...Please wait! </div>
+                        <div> Night time... Please wait! </div>
                 );
             }
             var tempStyle = {
