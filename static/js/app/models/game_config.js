@@ -13,17 +13,10 @@ function (
 
     return Backbone.Model.extend({
         initialize: function() {
-            this.gameCount = this.MAX_GAMES;
-            this.usedGameCodes = [];
-//            this.games = [];
             this.games = new Games();
         },
 
         createGame: function(username, picture, options) {
-            /*this.gameCount--;
-            this.usedGameCodes.push(this.gameCount);
-            return this.gameCount;*/
-            
             // TODO: This should be in Game model...
             var newGame = {
                 "createdBy" : username,
