@@ -11,11 +11,15 @@ function (
                     picture: "Insert url to default pic",
                 }
         },
-        initialize: function() {
-        },
 
         setRole: function(role) {
             this.role = role;
-        }
+        },
+
+        nominateToKill: function() {
+        },
+
+        voteToKill: function() {
+        },
     });
 });

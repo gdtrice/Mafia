@@ -77,6 +77,7 @@ function (
                         console.log('Invalid Role!!!');
                 }
             } else if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
+                // TODO: 3 is the current amount of roles that are necessary to play...should be the amount to actually play a round with 3 roles.
                 if(this.state.game.get('players').length < 3) {
                     stateDiv = (<div>Waiting for other players to join</div>);
                 } else {

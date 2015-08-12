@@ -2,16 +2,19 @@ define([
     "react",
     "underscore",
     "socket.io",
+    "models/detective",
     "views/player_picker_list"
 ],
 function (
     React,
     _,
     io,
+    DetectiveModel,
     PlayerPickerListView
     ) {
     return React.createClass({
         componentDidMount: function() {
+            this.detective = new DetectiveModel(this.props.currentPlayer.attributes);
             this.socket = io();
             this.socket.on('night_action', this._renderNightAction);
             // TODO: change kill event for detective
@@ -24,7 +27,11 @@ function (
                     day: false};
         },
 
-        investigatePlayer: function(player) {
+        investigatePlayer: function(suspect) {
+            console.log('detective is:');
+            console.log(this.detective);
+            console.log('suspect is:');
+            console.log(suspect);
         },
 
         _renderNightAction: function(data) {
@@ -36,15 +43,16 @@ function (
             this.setState({nightAction: false,
                            nightWait: true});
         },
+
         render: function() {
-            if(this.state.nightAction === true) {
+            if(this.state.nightAction) {
                 return (
                     <div>
                         <div> Its night time player...who do you think the mafia is? </div>
                         <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.investigatePlayer } />
                     </div>
                 );
-            } else if (this.state.nightWait === true) {
+            } else if (this.state.nightWait) {
                 return (
                         <div> Night time...Please wait! </div>
                 );
@@ -62,4 +70,3 @@ function (
         }
     });
 });
-

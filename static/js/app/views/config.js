@@ -23,7 +23,6 @@ function (
             "http://www.adweek.com/files/blogs/old-spice-terry-crews-brain-explodes.jpg",
             "http://s3.jspenguin.org/dodgeball_fran.jpeg",
             "http://i0.kym-cdn.com/photos/images/facebook/000/017/382/1250991947631.jpg",
-            "https://pbs.twimg.com/media/CEGlLktUEAA-eVD.jpg",
             "https://yt3.ggpht.com/-BTyjfWYxckI/AAAAAAAAAAI/AAAAAAAAAAA/Ab25VyxWLYE/s100-c-k-no/photo.jpg",
             "https://dantefw.files.wordpress.com/2014/07/top-funny-memes-06.jpg",
         ],
