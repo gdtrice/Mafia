@@ -1,13 +1,11 @@
 define([
     "backbone",
     "underscore",
-    "models/narrator",
     "models/game"
 ],
 function (
     Backbone,
     _,
-    NarratorModel,
     Game
     ) {
     return Backbone.Collection.extend({

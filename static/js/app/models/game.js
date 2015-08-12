@@ -1,11 +1,9 @@
 define([
     "backbone",
-    "models/narrator",
     "collections/players"
 ],
 function (
     Backbone,
-    NarratorModel,
     PlayerCollection
     ) {
     return Backbone.Model.extend({
