@@ -14,24 +14,24 @@ function (
     ) {
     return React.createClass({
         componentDidMount: function() {
-            this.detective = new DetectiveModel(this.props.currentPlayer.attributes);
+            this.detective = new DetectiveModel({
+                player: this.props.currentPlayer.attributes,
+                gameId: this.props.game.get('_id')});
+
             this.socket = io();
             this.socket.on('night_action', this._renderNightAction);
-            // TODO: change kill event for detective
-            this.socket.on('kill_registered', this._renderNightWait);
+            this.detective.on('investigation_complete', this._renderInvestigationResults);
         },
 
         getInitialState: function() {
             return {nightAction: false,
                     nightWait: false,
-                    day: false};
+                    day: false,
+                    result: null};
         },
 
         investigatePlayer: function(suspect) {
-            console.log('detective is:');
-            console.log(this.detective);
-            console.log('suspect is:');
-            console.log(suspect);
+            this.detective.investigate(suspect);
         },
 
         _renderNightAction: function(data) {
@@ -39,9 +39,15 @@ function (
                            nightWait: false});
         },
 
-        _renderNightWait: function(data) {
+        _renderNightWait: function() {
             this.setState({nightAction: false,
-                           nightWait: true});
+                           nightWait: true,
+                           result: null});
+        },
+        _renderInvestigationResults: function(data) {
+            this.setState({nightAction: false,
+                           nightWait: false,
+                           result: data.result});
         },
 
         render: function() {
@@ -53,8 +59,14 @@ function (
                     </div>
                 );
             } else if (this.state.nightWait) {
+                // TODO: These should all look the same in case people are playing in the same location
                 return (
                         <div> Night time...Please wait! </div>
+                );
+            } else if (!_.isNull(this.state.result)) {
+                _.delay(this._renderNightWait, 4000);
+                return (
+                        <div> Results from your investigation: {this.state.result.toString()}  </div>
                 );
             }
             var tempStyle = {

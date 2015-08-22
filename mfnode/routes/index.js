@@ -87,6 +87,7 @@ router.get('/games/:id/start', function(req, res) {
                             };
             });
 
+            // Ultra hacky
             var actionRolePlayers = _.sample(players, 3);
             actionRolePlayers[0].role = {name: 'mafia',
                                          picture: 'http://www.abcjogos.com.br/wp-content/uploads/2011/12/The-Godfather.jpg?7de635'
