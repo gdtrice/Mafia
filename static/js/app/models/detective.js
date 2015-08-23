@@ -11,14 +11,14 @@ function (
             this.socket = io();
             this.socket.on('investigate_registered', this._notifyResults.bind(this));
             this.socket.emit('investigate', {
-                suspect: suspect.get('username'),
+                player: suspect.get('username'),
                 gameId: this.get('gameId')
             });
         },
 
         _notifyResults: function(data) {
             // Unpack the data and return bool
-            this.trigger('investigation_complete', data);
+            this.trigger('investigate_complete', data);
         }
     });
 });

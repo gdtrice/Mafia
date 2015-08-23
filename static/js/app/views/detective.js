@@ -20,7 +20,7 @@ function (
 
             this.socket = io();
             this.socket.on('night_action', this._renderNightAction);
-            this.detective.on('investigation_complete', this._renderInvestigationResults);
+            this.detective.on('investigate_complete', this._renderInvestigationResults);
         },
 
         getInitialState: function() {

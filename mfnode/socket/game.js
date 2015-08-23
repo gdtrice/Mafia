@@ -22,7 +22,7 @@ gs = function GameSocket(server) {
             collection.find({_id: data.gameId },{}, function(e, docs) {
                 var isUserMafia = false;
                 _.each(docs[0].players, function(player) {
-                    if(player.username == data.suspect){
+                    if(player.username == data.player){
                         isUserMafia = (player.role.name == "mafia");
                     }
                       
