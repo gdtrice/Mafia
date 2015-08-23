@@ -3,14 +3,16 @@ define([
     "underscore",
     "socket.io",
     "models/mafia",
-    "views/player_picker_list"
+    "views/player_picker_list",
+    "views/night_wait"
 ],
 function (
     React,
     _,
     io,
     MafiaModel,
-    PlayerPickerListView
+    PlayerPickerListView,
+    NightWaitView
     ) {
     return React.createClass({
         componentDidMount: function() {
@@ -62,7 +64,7 @@ function (
                 );
             } else if (this.state.nightWait === true) {
                 return (
-                        <div> Night time... Please wait! </div>
+                       <NightWaitView />
                 );
             } else if (!_.isNull(this.state.result)) {
                 _.delay(this._renderNightWait, 4000);

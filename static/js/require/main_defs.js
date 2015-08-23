@@ -14,11 +14,11 @@ requirejs.config({
 
         // models
         "models/detective" : "app/models/detective",
+        "models/game_config" : "app/models/game_config",
+        "models/game" : "app/models/game",
         "models/mafia" : "app/models/mafia",
         "models/player" : "app/models/player",
         "models/user" : "app/models/user",
-        "models/game_config" : "app/models/game_config",
-        "models/game" : "app/models/game",
 
         // collections
         "collections/games" : "app/collections/games",
@@ -28,15 +28,16 @@ requirejs.config({
         // pointing to build for react jsx compiled files
         "views/config" : "build/views/config",
         "views/controller" : "build/views/controller",
-        "views/game_room" : "build/views/game_room",
-        "views/player_list" : "build/views/player_list",
-        "views/mafia" : "build/views/mafia",
         "views/detective" : "build/views/detective",
         "views/doctor" : "build/views/doctor",
-        "views/townsperson" : "build/views/townsperson",
+        "views/game_room" : "build/views/game_room",
+        "views/mafia" : "build/views/mafia",
+        "views/night_wait" : "build/views/night_wait",
+        "views/player_list" : "build/views/player_list",
         "views/player_picker_list" : "build/views/player_picker_list",
         "views/player_picker_item" : "build/views/player_picker_item",
-        "views/player_item" : "build/views/player_item"
+        "views/player_item" : "build/views/player_item",
+        "views/townsperson" : "build/views/townsperson"
     }
 });
 
