@@ -14,6 +14,7 @@ requirejs.config({
 
         // models
         "models/detective" : "app/models/detective",
+        "models/mafia" : "app/models/mafia",
         "models/player" : "app/models/player",
         "models/user" : "app/models/user",
         "models/game_config" : "app/models/game_config",
