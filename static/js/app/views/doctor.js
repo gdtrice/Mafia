@@ -2,6 +2,7 @@ define([
     "react",
     "underscore",
     "socket.io",
+    "models/doctor",
     "views/player_picker_list",
     "views/night_wait"
 ],
@@ -9,25 +10,32 @@ function (
     React,
     _,
     io,
+    DoctorModel,
     PlayerPickerListView,
     NightWaitView
     ) {
     return React.createClass({
         componentDidMount: function() {
+            this.doctor = new DoctorModel({
+                player: this.props.currentPlayer.attributes,
+                gameId: this.props.game.get('_id')
+            });
+
             this.socket = io();
             this.socket.on('night_action', this._renderNightAction);
-            // TODO: change kill event for doc
-            this.socket.on('kill_registered', this._renderNightWait);
+
+            this.doctor.on('save_complete', this._renderSaveResults);
         },
 
         savePlayerLife: function(player) {
-            // save player
+            this.doctor.save(player);
         },
 
         getInitialState: function() {
             return {nightAction: false,
                     nightWait: false,
-                    day: false};
+                    day: false,
+                    result: null};
         },
 
         _renderNightAction: function(data) {
@@ -35,9 +43,16 @@ function (
                            nightWait: false});
         },
 
+        _renderSaveResults: function(data) {
+            this.setState({nightAction: false,
+                           nightWait: false,
+                           result: data.result});
+        },
+
         _renderNightWait: function(data) {
             this.setState({nightAction: false,
-                           nightWait: true});
+                           nightWait: true,
+                           result: null});
         },
         render: function() {
             if(this.state.nightAction === true) {
@@ -50,6 +65,11 @@ function (
             } else if (this.state.nightWait === true) {
                 return (
                         <div> Night time...Please wait! </div>
+                );
+            } else if (!_.isNull(this.state.result)) {
+                _.delay(this._renderNightWait, 4000);
+                return (
+                        <div>  {this.state.result}  </div>
                 );
             }
             var tempStyle = {

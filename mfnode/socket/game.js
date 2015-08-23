@@ -42,6 +42,17 @@ gs = function GameSocket(server) {
 
             socket.emit('kill_registered', {result: "Will attempt to kill " + data.player});
         });
+
+        socket.on('save', function(data) {
+            // TODO: check if this is the correct user (i.e. mafia)
+            var collection = db.get('gamecollection');
+
+            // TODO: SUPER HACK!!! Make this query better!!!!!!!
+            collection.find({_id: data.gameId },{}, function(e, docs) {
+            });
+
+            socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
+        });
     });
 };
 
