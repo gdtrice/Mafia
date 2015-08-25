@@ -21,7 +21,7 @@ function (
                 gameId: this.props.game.get('_id')});
 
             this.socket = io();
-            this.socket.on('night_action', this._renderNightAction);
+            this.socket.on('detective_action', this._renderNightAction);
             this.detective.on('investigate_complete', this._renderInvestigationResults);
         },
 

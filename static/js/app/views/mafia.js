@@ -22,7 +22,7 @@ function (
             });
 
             this.socket = io();
-            this.socket.on('night_action', this._renderNightAction);
+            this.socket.on('mafia_action', this._renderNightAction);
             this.mafia.on('kill_complete', this._renderKillResults);
         },
 

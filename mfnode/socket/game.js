@@ -8,12 +8,14 @@ gs = function GameSocket(server) {
 
     io.on('connection', function(socket){
         console.log('a user connected');
-        io.emit('night_action', 'server can hear you loud and clear'); 
+        io.emit('detective_action', 'server can hear you loud and clear'); 
 
         socket.on('disconnect', function() {
             console.log('a user disconnected');
         });
 
+        // This is the first action that can be taken as the service currently stands
+        // Will create an entry in the db to start a round
         socket.on('investigate', function(data) {
             // TODO: check if this is the correct user (i.e. detective)
             var collection = db.get('gamecollection');
@@ -29,6 +31,8 @@ gs = function GameSocket(server) {
                 });
 
                 socket.emit('investigate_registered', {result: isUserMafia});
+                // Should probably delay this!
+                io.emit('mafia_action', 'server can hear you loud and clear'); 
             });
         });
 
@@ -41,6 +45,8 @@ gs = function GameSocket(server) {
             });
 
             socket.emit('kill_registered', {result: "Will attempt to kill " + data.player});
+            // Should probably delay this!
+            io.emit('doctor_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('save', function(data) {
@@ -52,6 +58,9 @@ gs = function GameSocket(server) {
             });
 
             socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
+
+            // Should probably delay this!
+            io.emit('day_begin');
         });
     });
 };

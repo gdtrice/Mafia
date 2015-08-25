@@ -22,7 +22,7 @@ function (
             });
 
             this.socket = io();
-            this.socket.on('night_action', this._renderNightAction);
+            this.socket.on('doctor_action', this._renderNightAction);
 
             this.doctor.on('save_complete', this._renderSaveResults);
         },
