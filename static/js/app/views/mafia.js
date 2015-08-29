@@ -2,6 +2,7 @@ define([
     "react",
     "underscore",
     "socket.io",
+    "constants",
     "models/mafia",
     "views/player_picker_list",
     "views/night_wait"
@@ -10,6 +11,7 @@ function (
     React,
     _,
     io,
+    CONSTANTS,
     MafiaModel,
     PlayerPickerListView,
     NightWaitView
@@ -67,7 +69,7 @@ function (
                        <NightWaitView />
                 );
             } else if (!_.isNull(this.state.result)) {
-                _.delay(this._renderNightWait, 4000);
+                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
                 return (
                         <div>  {this.state.result}  </div>
                 );

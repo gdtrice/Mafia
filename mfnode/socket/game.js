@@ -25,7 +25,7 @@ gs = function GameSocket(server) {
             collection.find({_id: data.gameId },{}, function(e, docs) {
                 var player = _.findWhere(docs[0].players, { username: data.player});
 
-                //TODO: do null check for player
+                // TODO: do null check for player
                 // TODO: ensure that this action hasn't occurred before
                 isUserMafia = (player.role.name == "mafia");
                       

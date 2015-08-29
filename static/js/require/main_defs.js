@@ -9,8 +9,8 @@ requirejs.config({
         react: "external/react-with-addons",
         "socket.io": "../../socket.io/socket.io",
 
-        // app
         app: "app",
+        constants: "app/constants",
 
         // models
         "models/detective" : "app/models/detective",

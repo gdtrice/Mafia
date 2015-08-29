@@ -2,6 +2,7 @@ define([
     "react",
     "underscore",
     "socket.io",
+    "constants",
     "models/detective",
     "views/player_picker_list",
     "views/night_wait"
@@ -10,6 +11,7 @@ function (
     React,
     _,
     io,
+    CONSTANTS,
     DetectiveModel,
     PlayerPickerListView,
     NightWaitView
@@ -66,7 +68,7 @@ function (
                        <NightWaitView />
                 );
             } else if (!_.isNull(this.state.result)) {
-                _.delay(this._renderNightWait, 4000);
+                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
                 return (
                         <div> Results from your investigation: {this.state.result.toString()}  </div>
                 );
