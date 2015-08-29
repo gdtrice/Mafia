@@ -45,6 +45,16 @@ router.get('/games/:id/players', function(req, res) {
     });
 });
 
+/* GET the Rounds of a Game */
+router.get('/games/:id/rounds', function(req, res) {
+    var db = req.db;
+    var collection = db.get('roundcollection');
+    collection.find({ game_id: req.params.id },{}, function(e, docs) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(docs[0]));
+    });
+});
+
 /* POST to add new Player to Game */
 router.post('/games/:id/players', function(req, res) {
 
