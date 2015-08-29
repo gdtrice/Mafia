@@ -29,6 +29,7 @@ requirejs.config({
         // pointing to build for react jsx compiled files
         "views/config" : "build/views/config",
         "views/controller" : "build/views/controller",
+        "views/day_council" : "build/views/day_council",
         "views/detective" : "build/views/detective",
         "views/doctor" : "build/views/doctor",
         "views/game_room" : "build/views/game_room",

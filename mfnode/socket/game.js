@@ -86,7 +86,7 @@ gs = function GameSocket(server) {
             socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
 
             // Should probably delay this!
-            io.emit('day_begin');
+            io.emit('day_action');
         });
     });
 };
