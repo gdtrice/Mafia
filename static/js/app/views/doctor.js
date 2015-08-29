@@ -66,7 +66,7 @@ function (
                 );
             } else if (this.state.nightWait === true) {
                 return (
-                        <div> Night time...Please wait! </div>
+                       <NightWaitView />
                 );
             } else if (!_.isNull(this.state.result)) {
                 _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
