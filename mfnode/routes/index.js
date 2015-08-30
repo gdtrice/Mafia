@@ -51,7 +51,7 @@ router.get('/games/:id/rounds', function(req, res) {
     var collection = db.get('roundcollection');
     collection.find({ game_id: req.params.id },{}, function(e, docs) {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(docs[0]));
+        res.send(JSON.stringify(docs));
     });
 });
 
@@ -93,6 +93,7 @@ router.get('/games/:id/start', function(req, res) {
             // assign everyone as townsperson, then sample players from the array, assign a mafia, doc, and detective
             _.each(players, function(player) {
                 player.role = { name: 'townsperson',
+                                is_alive: true,
                                 picture: 'http://www.renfair.com/images/nyrf_amenities.jpg'
                             };
             });
@@ -100,15 +101,18 @@ router.get('/games/:id/start', function(req, res) {
             // Ultra hacky
             var actionRolePlayers = _.sample(players, 3);
             actionRolePlayers[0].role = {name: 'mafia',
+                                         is_alive: true,
                                          picture: 'http://www.abcjogos.com.br/wp-content/uploads/2011/12/The-Godfather.jpg?7de635'
                         };
 
             actionRolePlayers[1].role = {name: 'doctor',
-                                             picture: 'http://www.how-to-draw-cartoons-online.com/image-files/cartoon-doctor-16.gif'
+                                         is_alive: true,
+                                         picture: 'http://www.how-to-draw-cartoons-online.com/image-files/cartoon-doctor-16.gif'
                         };
 
             actionRolePlayers[2].role = {name: 'detective',
-                                             picture: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQJeD7EIjfiy_IcOI0dguTrKtfVlFmnDUSM9UKVM8QLNhzaaOMkXw'
+                                         is_alive: true,
+                                         picture: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQJeD7EIjfiy_IcOI0dguTrKtfVlFmnDUSM9UKVM8QLNhzaaOMkXw'
                         };
 
             collection.update({ _id: req.params.id },{$set: {players: players, startDate: Date.now()}}, console.log);

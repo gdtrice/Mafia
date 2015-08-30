@@ -27,7 +27,7 @@ function (
 
             this.socket = io();
             this.socket.on('mafia_action', this._renderNightAction);
-            this.socket.on('day_action', this._renderDayView);
+            this.socket.on('day_action', this._renderDayView.bind(this));
             this.mafia.on('kill_complete', this._renderKillResults);
         },
 
@@ -35,6 +35,7 @@ function (
             return {nightAction: false,
                     nightWait: false,
                     dayAction: false,
+                    killResult: null,
                     result: null};
         },
 
@@ -46,6 +47,7 @@ function (
             this.setState({nightAction: true,
                            nightWait: false,
                            dayAction: false,
+                           killResult: null,
                            result: null});
         },
 
@@ -53,6 +55,7 @@ function (
             this.setState({nightAction: false,
                            nightWait: true,
                            dayAction: false,
+                           killResult: null,
                            result: null});
         },
 
@@ -60,6 +63,7 @@ function (
             this.setState({nightAction: false,
                            nightWait: false,
                            dayAction: false,
+                           killResult: null,
                            result: data.result});
         },
 
@@ -67,6 +71,7 @@ function (
             this.setState({nightAction: false,
                            nightWait: false,
                            dayAction: true,
+                           killResult: data.killedPlayer,
                            result: null});
         },
 
@@ -89,7 +94,7 @@ function (
                 );
             } else if (this.state.dayAction === true) {
                 return (
-                        <DayCouncilView />
+                        <DayCouncilView killedPlayer={ this.state.killResult }/>
                 );
             }
             var tempStyle = {

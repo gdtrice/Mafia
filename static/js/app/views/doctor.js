@@ -27,7 +27,8 @@ function (
 
             this.socket = io();
             this.socket.on('doctor_action', this._renderNightAction);
-            this.socket.on('day_action', this._renderDayView);
+            this.socket.on('day_action', this._renderDayView.bind(this));
+
             this.doctor.on('save_complete', this._renderSaveResults);
         },
 
@@ -39,6 +40,7 @@ function (
             return {nightAction: false,
                     nightWait: false,
                     dayAction: false,
+                    killResult: null,
                     result: null};
         },
 
@@ -46,6 +48,7 @@ function (
             this.setState({nightAction: true,
                            dayAction: false,
                            nightWait: false,
+                           killResult: null,
                            result: null});
         },
 
@@ -53,6 +56,7 @@ function (
             this.setState({nightAction: false,
                            nightWait: false,
                            dayAction: false,
+                           killResult: null,
                            result: data.result});
         },
 
@@ -60,6 +64,7 @@ function (
             this.setState({nightAction: false,
                            dayAction: false,
                            nightWait: true,
+                           killResult: null,
                            result: null});
         },
 
@@ -67,6 +72,7 @@ function (
             this.setState({nightAction: false,
                            dayAction: true,
                            nightWait: false,
+                           killResult: data.killedPlayer,
                            result: null});
         },
         render: function() {
@@ -88,7 +94,7 @@ function (
                 );
             } else if (this.state.dayAction === true) {
                 return (
-                        <DayCouncilView />
+                        <DayCouncilView killedPlayer={ this.state.killResult }/>
                 );
             }
             var tempStyle = {

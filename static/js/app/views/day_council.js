@@ -1,8 +1,10 @@
 define([
-    "react"
+    "react",
+    "underscore"
 ],
 function (
-    React
+    React,
+    _
     ) {
     return React.createClass({
         render: function() {
@@ -10,8 +12,13 @@ function (
                 width: "100px",
                 height: "100px"
             };
+            if (!_.isNull(this.props.killedPlayer)) {
+                return (
+                        <div>{this.props.killedPlayer} died in the night... :( </div>
+                );
+            }
             return (
-                    <div> Day time... Please wait! </div>
+                <div> Nobody died!!!!! Celebrate good times </div>
             );
         }
     });
