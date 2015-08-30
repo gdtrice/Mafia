@@ -6,6 +6,7 @@ define([
     "models/doctor",
     "views/day_council",
     "views/player_picker_list",
+    "views/role_mixin",
     "views/night_wait"
 ],
 function (
@@ -16,99 +17,39 @@ function (
     DoctorModel,
     DayCouncilView,
     PlayerPickerListView,
+    RoleMixin,
     NightWaitView
     ) {
     return React.createClass({
+        mixins: [RoleMixin],
+
         componentDidMount: function() {
             this.doctor = new DoctorModel({
                 player: this.props.currentPlayer.attributes,
                 gameId: this.props.game.get('_id')
             });
 
-            this.socket = io();
             this.socket.on('doctor_action', this._renderNightAction);
-            this.socket.on('day_action', this._renderDayView.bind(this));
+            this.doctor.on('save_complete', this._renderRoleActionResults);
+        },
 
-            this.doctor.on('save_complete', this._renderSaveResults);
+        getInitialState: function() {
+            return this.DEFAULT_STATE;
         },
 
         savePlayerLife: function(player) {
             this.doctor.save(player);
         },
 
-        getInitialState: function() {
-            return {nightAction: false,
-                    nightWait: false,
-                    dayAction: false,
-                    killResult: null,
-                    result: null};
-        },
-
-        _renderNightAction: function(data) {
-            this.setState({nightAction: true,
-                           dayAction: false,
-                           nightWait: false,
-                           killResult: null,
-                           result: null});
-        },
-
-        _renderSaveResults: function(data) {
-            this.setState({nightAction: false,
-                           nightWait: false,
-                           dayAction: false,
-                           killResult: null,
-                           result: data.result});
-        },
-
-        _renderNightWait: function(data) {
-            this.setState({nightAction: false,
-                           dayAction: false,
-                           nightWait: true,
-                           killResult: null,
-                           result: null});
-        },
-
-        _renderDayView: function(data) {
-            this.setState({nightAction: false,
-                           dayAction: true,
-                           nightWait: false,
-                           killResult: data.killedPlayer,
-                           result: null});
-        },
         render: function() {
-            if(this.state.nightAction === true) {
-                return (
-                    <div>
-                        <div> Its night time player...save someones life! </div>
-                        <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.savePlayerLife } />
-                    </div>
-                );
-            } else if (this.state.nightWait === true) {
-                return (
-                       <NightWaitView />
-                );
-            } else if (!_.isNull(this.state.result)) {
-                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
-                return (
-                        <div>  {this.state.result}  </div>
-                );
-            } else if (this.state.dayAction === true) {
-                return (
-                        <DayCouncilView killedPlayer={ this.state.killResult }/>
-                );
-            }
-            var tempStyle = {
-                width: "100px",
-                height: "100px"
-            };
-            return (
-                <div className="doctor-container">
-                    <img id="role-pic" style={{ width: tempStyle.width, height: tempStyle.height }} src={ this.props.currentPlayer.get('role').picture }></img>
-                    <div id="role-name">{ this.props.currentPlayer.get('role').name }</div>
+            var nightActionElement = (
+                <div>
+                    <div> Its night time player...save someones life! </div>
+                    <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.savePlayerLife } />
                 </div>
             );
+
+            return this.getViewForRender(nightActionElement);
         }
     });
 });
-
-

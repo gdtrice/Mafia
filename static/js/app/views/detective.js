@@ -4,8 +4,8 @@ define([
     "socket.io",
     "constants",
     "models/detective",
-    "views/day_council",
     "views/player_picker_list",
+    "views/role_mixin",
     "views/night_wait"
 ],
 function (
@@ -14,100 +14,39 @@ function (
     io,
     CONSTANTS,
     DetectiveModel,
-    DayCouncilView,
     PlayerPickerListView,
+    RoleMixin,
     NightWaitView
     ) {
     return React.createClass({
+        mixins: [RoleMixin],
+
         componentDidMount: function() {
             this.detective = new DetectiveModel({
                 player: this.props.currentPlayer.attributes,
                 gameId: this.props.game.get('_id')});
 
-            this.socket = io();
             this.socket.on('detective_action', this._renderNightAction);
-            this.socket.on('day_action', this._renderDayView.bind(this));
-
-            this.detective.on('investigate_complete', this._renderInvestigationResults);
+            this.detective.on('investigate_complete', this._renderRoleActionResults);
         },
 
         getInitialState: function() {
-            return {nightAction: false,
-                    nightWait: false,
-                    killResult: null,
-                    day: false,
-                    result: null};
+            return this.DEFAULT_STATE;
         },
 
         investigatePlayer: function(suspect) {
             this.detective.investigate(suspect);
         },
 
-        _renderNightAction: function(data) {
-            this.setState({nightAction: true,
-                           nightWait: false,
-                           dayAction: false,
-                           killResult: null,
-                           result: null});
-        },
-
-        _renderNightWait: function() {
-            this.setState({nightAction: false,
-                           nightWait: true,
-                           dayAction: false,
-                           killResult: null,
-                           result: null});
-        },
-
-        _renderInvestigationResults: function(data) {
-            this.setState({nightAction: false,
-                           nightWait: false,
-                           dayAction: false,
-                           killResult: null,
-                           result: data.result});
-        },
-
-        _renderDayView: function(data) {
-            this.setState({nightAction: false,
-                           nightWait: false,
-                           dayAction: true,
-                           killResult: data.killedPlayer,
-                           result: null});
-        },
-
         render: function() {
-            if(this.state.nightAction) {
-                return (
-                    <div>
-                        <div> Its night time player...who do you think the mafia is? </div>
-                        <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.investigatePlayer } />
-                    </div>
-                );
-            } else if (this.state.nightWait) {
-                // TODO: These should all look the same in case people are playing in the same location
-                return (
-                       <NightWaitView />
-                );
-            } else if (!_.isNull(this.state.result)) {
-                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
-                return (
-                        <div> Results from your investigation: {this.state.result.toString()}  </div>
-                );
-            } else if (this.state.dayAction === true) {
-                return (
-                        <DayCouncilView killedPlayer={ this.state.killResult }/>
-                );
-            }
-            var tempStyle = {
-                width: "100px",
-                height: "100px"
-            };
-            return (
-                <div className="detective-container">
-                    <img id="role-pic" style={{ width: tempStyle.width, height: tempStyle.height }} src={ this.props.currentPlayer.get('role').picture }></img>
-                    <div id="role-name">{ this.props.currentPlayer.get('role').name }</div>
+            var nightActionElement = (
+                <div>
+                    <div> Its night time player...who do you think the mafia is? </div>
+                    <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.investigatePlayer } />
                 </div>
             );
+
+            return this.getViewForRender(nightActionElement);
         }
     });
 });
