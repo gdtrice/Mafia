@@ -4,6 +4,7 @@ define([
     "socket.io",
     "constants",
     "models/detective",
+    "views/day_council",
     "views/player_picker_list",
     "views/night_wait"
 ],
@@ -13,6 +14,7 @@ function (
     io,
     CONSTANTS,
     DetectiveModel,
+    DayCouncilView,
     PlayerPickerListView,
     NightWaitView
     ) {
@@ -24,6 +26,8 @@ function (
 
             this.socket = io();
             this.socket.on('detective_action', this._renderNightAction);
+            this.socket.on('day_action', this._renderDayView);
+
             this.detective.on('investigate_complete', this._renderInvestigationResults);
         },
 
@@ -40,18 +44,30 @@ function (
 
         _renderNightAction: function(data) {
             this.setState({nightAction: true,
-                           nightWait: false});
+                           nightWait: false,
+                           dayAction: false,
+                           result: null});
         },
 
         _renderNightWait: function() {
             this.setState({nightAction: false,
                            nightWait: true,
+                           dayAction: false,
                            result: null});
         },
+
         _renderInvestigationResults: function(data) {
             this.setState({nightAction: false,
                            nightWait: false,
+                           dayAction: false,
                            result: data.result});
+        },
+
+        _renderDayView: function(data) {
+            this.setState({nightAction: false,
+                           nightWait: false,
+                           dayAction: true,
+                           result: null});
         },
 
         render: function() {
@@ -71,6 +87,10 @@ function (
                 _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
                 return (
                         <div> Results from your investigation: {this.state.result.toString()}  </div>
+                );
+            } else if (this.state.dayAction === true) {
+                return (
+                        <DayCouncilView />
                 );
             }
             var tempStyle = {

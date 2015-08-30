@@ -5,7 +5,8 @@ define([
     "constants",
     "models/mafia",
     "views/player_picker_list",
-    "views/night_wait"
+    "views/night_wait",
+    "views/day_council"
 ],
 function (
     React,
@@ -14,7 +15,8 @@ function (
     CONSTANTS,
     MafiaModel,
     PlayerPickerListView,
-    NightWaitView
+    NightWaitView,
+    DayCouncilView
     ) {
     return React.createClass({
         componentDidMount: function() {
@@ -87,7 +89,7 @@ function (
                 );
             } else if (this.state.dayAction === true) {
                 return (
-                        <div>  day view will go here...trust me </div>
+                        <DayCouncilView />
                 );
             }
             var tempStyle = {

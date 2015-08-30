@@ -4,6 +4,7 @@ define([
     "socket.io",
     "constants",
     "models/doctor",
+    "views/day_council",
     "views/player_picker_list",
     "views/night_wait"
 ],
@@ -13,6 +14,7 @@ function (
     io,
     CONSTANTS,
     DoctorModel,
+    DayCouncilView,
     PlayerPickerListView,
     NightWaitView
     ) {
@@ -25,7 +27,7 @@ function (
 
             this.socket = io();
             this.socket.on('doctor_action', this._renderNightAction);
-
+            this.socket.on('day_action', this._renderDayView);
             this.doctor.on('save_complete', this._renderSaveResults);
         },
 
@@ -36,24 +38,35 @@ function (
         getInitialState: function() {
             return {nightAction: false,
                     nightWait: false,
-                    day: false,
+                    dayAction: false,
                     result: null};
         },
 
         _renderNightAction: function(data) {
             this.setState({nightAction: true,
-                           nightWait: false});
+                           dayAction: false,
+                           nightWait: false,
+                           result: null});
         },
 
         _renderSaveResults: function(data) {
             this.setState({nightAction: false,
                            nightWait: false,
+                           dayAction: false,
                            result: data.result});
         },
 
         _renderNightWait: function(data) {
             this.setState({nightAction: false,
+                           dayAction: false,
                            nightWait: true,
+                           result: null});
+        },
+
+        _renderDayView: function(data) {
+            this.setState({nightAction: false,
+                           dayAction: true,
+                           nightWait: false,
                            result: null});
         },
         render: function() {
@@ -72,6 +85,10 @@ function (
                 _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
                 return (
                         <div>  {this.state.result}  </div>
+                );
+            } else if (this.state.dayAction === true) {
+                return (
+                        <DayCouncilView />
                 );
             }
             var tempStyle = {
