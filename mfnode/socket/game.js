@@ -40,7 +40,7 @@ gs = function GameSocket(server) {
                 });
             });
 
-            socket.emit('investigate_registered', {result: isUserMafia});
+            socket.emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
             // Should probably delay this!
             io.emit('mafia_action', 'server can hear you loud and clear'); 
         });
