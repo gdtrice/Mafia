@@ -46,7 +46,7 @@ function (
                 </div>
             );
 
-            return this.getViewForRender(nightActionElement);
+            return this.getViewForRender(nightActionElement, 'investigate_done');
         }
     });
 });

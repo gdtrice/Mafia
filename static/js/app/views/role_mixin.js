@@ -20,10 +20,6 @@ function (
             this.socket.on('day_action', this._renderDayView);
         },
 
-        performRoleAction: function(func) {
-            func();
-        },
-
         DEFAULT_STATE: {nightAction: false,
                          nightWait: false,
                          dayAction: false,
@@ -38,12 +34,14 @@ function (
                            result: null});
         },
 
-        _renderNightWait: function() {
+        _renderNightWait: function(roleDoneEmitter) {
             this.setState({nightAction: false,
                            dayAction: false,
                            nightWait: true,
                            killResult: null,
                            result: null});
+
+            this.socket.emit(roleDoneEmitter, {gameId: this.props.game.get('_id')});
         },
 
         _renderRoleActionResults: function(data) {
@@ -66,8 +64,7 @@ function (
                            result: null});
         },
 
-        getViewForRender: function(nightActionView) {
-            console.log('in role mixin');
+        getViewForRender: function(nightActionView, roleDoneEmitter) {
             if(this.state.nightAction === true) {
                 // TODO: react element validation
                 return nightActionView;
@@ -76,7 +73,7 @@ function (
                        <NightWaitView />
                 );
             } else if (!_.isNull(this.state.result)) {
-                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY);
+                _.delay(this._renderNightWait, CONSTANTS.NIGHT_DELAY, roleDoneEmitter);
                 return (
                         <div>  {this.state.result}  </div>
                 );

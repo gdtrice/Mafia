@@ -49,7 +49,7 @@ function (
                 </div>
             );
 
-            return this.getViewForRender(nightActionElement);
+            return this.getViewForRender(nightActionElement, 'save_done');
         }
     });
 });

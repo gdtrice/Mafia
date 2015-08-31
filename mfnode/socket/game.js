@@ -41,7 +41,9 @@ gs = function GameSocket(server) {
             });
 
             socket.emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
-            // Should probably delay this!
+        });
+
+        socket.on('investigate_done', function(data) {
             io.emit('mafia_action', 'server can hear you loud and clear'); 
         });
 
@@ -63,14 +65,15 @@ gs = function GameSocket(server) {
             });
 
             socket.emit('kill_registered', {result: "Will attempt to kill " + data.player});
-            // Should probably delay this!
+        });
+
+        socket.on('kill_done', function(data) {
             io.emit('doctor_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('save', function(data) {
             // TODO: check if this is the correct user (i.e. doctor)
             var roundCollection = db.get('roundcollection');
-            var killedPlayer = null;
 
             // TODO: SUPER HACK!!! Make this query better!!!!!!!
             roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
@@ -84,23 +87,33 @@ gs = function GameSocket(server) {
                         }
                 });
 
-                // If the kill target is not the saved player. That player gets killed.
+                socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
+            });
+        });
+
+        socket.on('save_done', function(data) {
+            var killedPlayer = null;
+
+            // TODO: SUPER HACK!!! Make this query better!!!!!!!
+            var roundCollection = db.get('roundcollection');
+            roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
+
                 var killTarget = docs[0].night_data.player_kill_target;
-                if (killTarget !== data.player) {
+                var saveTarget = docs[0].night_data.player_save_target;
+
+                // If the kill target is not the saved player. That player gets killed.
+                if (killTarget !== saveTarget) {
                     killedPlayer = killTarget;
                     var gameCollection = db.get("gamecollection");
                     gameCollection.find({ _id: data.gameId}, {}, function(e, games) {
                         var player = _.findWhere(games[0].players, {username: killTarget});
                         player.isAlive = false;
+
                         //TODO: Do we need to requery?
                         gameCollection.update({ _id: data.gameId },{$set: {players: games[0].players}});
                     });
                 }
 
-                // XXX: RACE CONDITION! SEE https://github.com/gdtrice/Mafia/issues/9 
-                socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
-
-                // Should probably delay this!
                 io.emit('day_action', {killedPlayer: killedPlayer});
             });
         });

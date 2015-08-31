@@ -47,7 +47,7 @@ function (
                 </div>
             );
 
-            return this.getViewForRender(nightActionElement);
+            return this.getViewForRender(nightActionElement, 'kill_done');
         }
     });
 });
