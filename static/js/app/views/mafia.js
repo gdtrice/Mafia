@@ -1,22 +1,14 @@
 define([
     "react",
-    "underscore",
-    "socket.io",
-    "constants",
     "models/mafia",
     "views/player_picker_list",
-    "views/role_mixin",
-    "views/night_wait"
+    "views/role_mixin"
 ],
 function (
     React,
-    _,
-    io,
-    CONSTANTS,
     MafiaModel,
     PlayerPickerListView,
-    RoleMixin,
-    NightWaitView
+    RoleMixin
     ) {
     return React.createClass({
         mixins: [RoleMixin],
