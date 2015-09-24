@@ -1,25 +1,20 @@
 define([
     "react",
-    "underscore"
+    "views/role_mixin"
 ],
 function (
     React,
-    _
+    RoleMixin
     ) {
     return React.createClass({
+        mixins: [RoleMixin],
+
+        getInitialState: function() {
+            return this.DEFAULT_STATE;
+        },
+
         render: function() {
-            var tempStyle = {
-                width: "100px",
-                height: "100px"
-            };
-            return (
-                <div className="townsperson-container">
-                    <img id="role-pic" style={{ width: tempStyle.width, height: tempStyle.height }} src={ this.props.currentPlayer.get('role').picture }></img>
-                    <div id="role-name">{ this.props.currentPlayer.get('role').name }</div>
-                </div>
-            );
+            return this.getViewForRender();
         }
     });
 });
-
-
