@@ -18,6 +18,8 @@ function (
         componentDidMount: function() {
             this.socket = io();
             this.socket.on('day_action', this._renderDayView);
+            this.socket.emit('start_game', { gameId: this.props.game.id,
+                                             totalPlayers: this.props.game.get('players').length }); 
         },
 
         DEFAULT_STATE: {nightAction: false,

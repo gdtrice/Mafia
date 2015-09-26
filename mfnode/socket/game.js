@@ -7,8 +7,15 @@ gs = function GameSocket(server) {
     var io = require('socket.io')(server);
 
     io.on('connection', function(socket){
-        console.log('a user connected');
-        io.emit('detective_action', 'server can hear you loud and clear'); 
+        socket.on('start_game', function(data) {
+            socket.join(data.gameId);
+            console.log('connection established from client:' + socket.id);
+            var collection = db.get('gamecollection');
+            // Kinda hacky...Count the users in the room before starting
+            if (Object.keys(io.nsps["/"].adapter.rooms[data.gameId]).length === data.totalPlayers) {
+                io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
+            }
+        });
 
         socket.on('disconnect', function() {
             console.log('a user disconnected');
@@ -40,11 +47,11 @@ gs = function GameSocket(server) {
                 });
             });
 
-            socket.emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
+            io.to(data.gameId).emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
         });
 
         socket.on('investigate_done', function(data) {
-            io.emit('mafia_action', 'server can hear you loud and clear'); 
+            io.to(data.gameId).emit('mafia_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('kill', function(data) {
@@ -64,11 +71,11 @@ gs = function GameSocket(server) {
                 });
             });
 
-            socket.emit('kill_registered', {result: "Will attempt to kill " + data.player});
+            io.to(data.gameId).emit('kill_registered', {result: "Will attempt to kill " + data.player});
         });
 
         socket.on('kill_done', function(data) {
-            io.emit('doctor_action', 'server can hear you loud and clear'); 
+            io.to(data.gameId).emit('doctor_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('save', function(data) {
@@ -87,7 +94,7 @@ gs = function GameSocket(server) {
                         }
                 });
 
-                socket.emit('save_registered', {result: data.player + " gets to live to fight another day"});
+                io.to(data.gameId).emit('save_registered', {result: data.player + " gets to live to fight another day"});
             });
         });
 
@@ -114,7 +121,7 @@ gs = function GameSocket(server) {
                     });
                 }
 
-                io.emit('day_action', {killedPlayer: killedPlayer});
+                io.to(data.gameId).emit('day_action', {killedPlayer: killedPlayer});
             });
         });
     });
