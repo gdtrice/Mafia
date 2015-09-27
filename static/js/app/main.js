@@ -12,6 +12,9 @@ function (
     GameConfig,
     ControllerView
     ) {
+
     var el = document.getElementById('test');
-    React.render(<ControllerView />, el);
+    React.render(
+        <ControllerView />, el
+    );
 });
