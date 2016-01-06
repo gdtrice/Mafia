@@ -13,7 +13,7 @@ function (
     ControllerView
     ) {
 
-    var el = document.getElementById('test');
+    var el = document.getElementById('game-container');
     React.render(
         <ControllerView />, el
     );
