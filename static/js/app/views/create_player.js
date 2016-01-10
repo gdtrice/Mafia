@@ -10,12 +10,7 @@ function (
     ) {
     return React.createClass({
         IMAGES: [
-            "https://pbs.twimg.com/profile_images/450834967166070784/QeQgc7ZF_400x400.jpeg",
-            "https://pbs.twimg.com/profile_images/585565077207678977/N_eNSBXi_400x400.jpg",
-            "https://pbs.twimg.com/profile_images/566325718330511360/ggWoZsVl_400x400.jpeg",
-            "https://pbs.twimg.com/profile_images/378800000189727654/ab49635c2ea63d32c066c899e21fa8ce_400x400.jpeg",
-            "https://pbs.twimg.com/profile_images/581580930520727552/hE2LErp8_400x400.jpg",
-            "https://pbs.twimg.com/profile_images/543489020508921856/hM1FwyAO_reasonably_small.jpeg",
+            "http://i2.wp.com/masetv.com/wp-content/uploads/2013/12/sway-aint-got-the-answers.jpg",
             "http://weknowmemes.com/wp-content/uploads/2012/06/i-feel-it.jpg",
             "http://static.comicvine.com/uploads/original/5/50639/3377081-walter+white.jpg",
             "http://www.adweek.com/files/blogs/old-spice-terry-crews-brain-explodes.jpg",
