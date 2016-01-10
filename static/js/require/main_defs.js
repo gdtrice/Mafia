@@ -3,10 +3,11 @@ requirejs.config({
 
     paths: {
         // external libraries
-        jquery: 'external/jquery-1.11.2.min',
+        jquery: "external/jquery-1.11.2.min",
         backbone: "external/backbone-min",
         underscore: "external/underscore-min",
         react: "external/react-with-addons",
+        classnames: "external/classnames", // blessed by react to do classnames
         "socket.io": "../../socket.io/socket.io",
 
         app: "app",

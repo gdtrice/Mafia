@@ -43,10 +43,8 @@ function (
         render: function() {
             return (
                 <div>
-                    <form onSubmit={this.createPlayer}>
-                        Name: <input type="text" placeholder="enter your name..." ref="username" />
-                        <input type="submit" value="Go" />
-                    </form>
+                    Name: <input type="text" placeholder="enter your name..." ref="username" />
+                    <input className="btn btn-default" type="button" value="Go" onClick={this.createPlayer} />
                 </div>
             );
         }

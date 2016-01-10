@@ -71,13 +71,11 @@ function (
             } else {
                 return (
                     <div>
-                        <form onSubmit={this.createPlayerFromNew}>
-                            <input type="submit" value="New Game" />
-                        </form>
-                        <form onSubmit={this.createPlayerFromJoin}>
+                        <input className="btn btn-default" type="button" value="New Game" onClick={this.createPlayerFromNew} />
+                        <div>
                             Join room: <input type="text" placeholder="enter room id..." ref="gameCode" />
-                            <input type="submit" value="Join" />
-                        </form>
+                            <input className="btn btn-default" type="button" value="Join" onClick={this.createPlayerFromJoin} />
+                        </div>
                     </div>
                 );
             }

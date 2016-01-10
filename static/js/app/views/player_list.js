@@ -17,9 +17,7 @@ function (
 
             return (
                 <div>
-                    <ul id="player-list">
-                        { playerItems }
-                    </ul>
+                    { playerItems }
                 </div>
             );
         }

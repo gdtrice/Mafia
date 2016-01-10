@@ -11,5 +11,6 @@ function (
             EXISTING: 'existing',
             UNKNOWN: 'unknown'
         },
+        PLAYER_MINIMUM: 4, // TODO: 4 is the minimum amount of players that are necessary to play.
     };
 });

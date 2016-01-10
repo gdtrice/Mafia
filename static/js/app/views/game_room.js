@@ -1,6 +1,7 @@
 define([
     "react",
     "underscore",
+    "constants",
     "models/game",
     "views/player_list",
     "views/mafia",
@@ -11,6 +12,7 @@ define([
 function (
     React,
     _,
+    CONSTANTS,
     GameModel,
     PlayerList,
     MafiaView,
@@ -77,15 +79,15 @@ function (
                         console.log('Invalid Role!!!');
                 }
             } else if (this.state.game.get('createdBy') === this.props.currentPlayer.get('username')) {
-                // TODO: 3 is the current amount of roles that are necessary to play...should be the amount to actually play a round with 3 roles.
-                if(this.state.game.get('players').length < 3) {
+                if(this.state.game.get('players').length < CONSTANTS.PLAYER_MINIMUM) {
                     stateDiv = (<div>Waiting for other players to join</div>);
                 } else {
-                    stateDiv = (<button type="button" onClick={this.startGame}> Start Button </button>);
+                    stateDiv = (<input className="btn btn-default" type="button" onClick={this.startGame} value="Start Game" />);
                 }
             } else {
                 stateDiv = (<div> Waiting for { this.state.game.get('createdBy') } to start the game... </div>);
             }
+
 
             return (
                 <div className="game-room">

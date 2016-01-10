@@ -6,15 +6,15 @@ function (
     ) {
     return React.createClass({
         render: function() {
-            var tempStyle = {
-                width: "100px",
-                height: "100px"
-            };
             return (
-                <li>
-                    <img id="user-pic" style={{ width: tempStyle.width, height: tempStyle.height }} src={ this.props.player.get('picture') }></img>
-                    <div id="username">{ this.props.player.get('username') }</div>
-                </li>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <a href="#" className="thumbnail">
+                        <img src={ this.props.player.get('picture') } className="img-rounded"></img>
+                        <h4 className="card-title">{ this.props.player.get('username') }</h4>
+                    </a>
+                  </div>
+                </div>
             );
         }
     });
