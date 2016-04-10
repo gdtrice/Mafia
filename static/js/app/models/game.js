@@ -32,6 +32,7 @@ function (
                 success: function(resp) {
                     // TODO: investigate merge collections stuff...this is inefficient and will cause bugs later
                     // losing refs to the initial collection would suck
+                    // This is basically parse() clean this up.
                     self.set({
                         startDate: resp.startDate,
                         players: new PlayerCollection(resp.players, { gameId: resp._id })

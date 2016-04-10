@@ -17,7 +17,7 @@ function (
     return {
         componentDidMount: function() {
             this.socket = io();
-            this.socket.on('day_action', this._renderDayView);
+            this.socket.on('night_results', this._renderDayView);
             this.socket.emit('start_game', { gameId: this.props.game.id,
                                              totalPlayers: this.props.game.get('players').length }); 
         },
@@ -66,7 +66,20 @@ function (
                            result: null});
         },
 
+        _renderVote: function() {
+            var self = this;
+            this.props.game.fetch({
+                success: function(resp, status) {
+                    self.setState({voting: true});
+                },
+                error: function(resp, status) {
+                    console.log(status);
+                }
+            });
+        },
+
         getViewForRender: function(nightActionView, roleDoneEmitter) {
+            // TODO: Should use switch case on action type enum or something..
             if(this.state.nightAction === true) {
                 // TODO: react element validation
                 return nightActionView;
@@ -81,7 +94,7 @@ function (
                 );
             } else if (this.state.dayAction === true) {
                 return (
-                        <DayCouncilView killedPlayer={ this.state.killResult }/>
+                        <DayCouncilView killedPlayer={ this.state.killResult } game={ this.props.game} />
                 );
             }
             var tempStyle = {

@@ -21,7 +21,7 @@ function (
                 gameId: this.props.game.get('_id')
             });
 
-            this.socket.on('doctor_action', this._renderNightAction);
+            this.doctor.on('doctor_action', this._renderNightAction);
             this.doctor.on('save_complete', this._renderRoleActionResults);
         },
 

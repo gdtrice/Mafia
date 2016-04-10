@@ -7,6 +7,10 @@ function (
     io
     ) {
     return PlayerModel.extend({
+        initialize: function() {
+            this.socket.on('doctor_action', this._notifyNightAction.bind(this));
+        },
+
         save: function(patient) {
             this.socket = io();
             this.socket.on('save_registered', this._notifyResults.bind(this));
@@ -18,6 +22,10 @@ function (
 
         _notifyResults: function(data) {
             this.trigger('save_complete', data);
+        },
+
+        _notifyNightAction: function() {
+            this.trigger('doctor_action');
         }
     });
 });

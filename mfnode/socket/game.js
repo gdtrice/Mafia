@@ -94,11 +94,38 @@ gs = function GameSocket(server) {
                         }
                 });
 
-                io.to(data.gameId).emit('save_registered', {result: data.player + " gets to live to fight another day"});
+                io.to(data.gameId).emit('save_registered', {result: data.player + " will live to fight another day"});
             });
         });
 
         socket.on('save_done', function(data) {
+            var killedPlayer = null;
+
+            // TODO: SUPER HACK!!! Make this query better!!!!!!!
+            var roundCollection = db.get('roundcollection');
+            roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
+
+                var killTarget = docs[0].night_data.player_kill_target;
+                var saveTarget = docs[0].night_data.player_save_target;
+
+                // If the kill target is not the saved player. That player gets killed.
+                if (killTarget !== saveTarget) {
+                    killedPlayer = killTarget;
+                    var gameCollection = db.get("gamecollection");
+                    gameCollection.find({ _id: data.gameId}, {}, function(e, games) {
+                        var player = _.findWhere(games[0].players, {username: killTarget});
+                        player.role.is_alive = false;
+
+                        //TODO: Do we need to requery?
+                        gameCollection.update({ _id: data.gameId },{$set: {players: games[0].players}});
+                    });
+                }
+
+                io.to(data.gameId).emit('night_results', {killedPlayer: killedPlayer});
+            });
+        });
+
+        socket.on('day_council_start', function(data) {
             var killedPlayer = null;
 
             // TODO: SUPER HACK!!! Make this query better!!!!!!!

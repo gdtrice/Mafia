@@ -7,6 +7,9 @@ function (
     io
     ) {
     return PlayerModel.extend({
+        initialize: function() {
+            this.socket.on('mafia_action', this._notifyNightAction.bind(this));
+        },
         kill: function(target) {
             this.socket = io();
             this.socket.on('kill_registered', this._notifyResults.bind(this));
@@ -18,6 +21,10 @@ function (
 
         _notifyResults: function(data) {
             this.trigger('kill_complete', data);
+        },
+
+        _notifyNightAction: function() {
+            this.trigger('mafia_action');
         }
     });
 });

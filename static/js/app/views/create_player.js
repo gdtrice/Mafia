@@ -10,14 +10,14 @@ function (
     ) {
     return React.createClass({
         IMAGES: [
-            "http://i2.wp.com/masetv.com/wp-content/uploads/2013/12/sway-aint-got-the-answers.jpg",
-            "http://weknowmemes.com/wp-content/uploads/2012/06/i-feel-it.jpg",
-            "http://static.comicvine.com/uploads/original/5/50639/3377081-walter+white.jpg",
-            "http://www.adweek.com/files/blogs/old-spice-terry-crews-brain-explodes.jpg",
-            "http://s3.jspenguin.org/dodgeball_fran.jpeg",
-            "http://i0.kym-cdn.com/photos/images/facebook/000/017/382/1250991947631.jpg",
-            "http://static4.businessinsider.com/image/55918a4b6da811695ab77f22-480/rtx1gzco.jpg",
-            "https://dantefw.files.wordpress.com/2014/07/top-funny-memes-06.jpg",
+            "static/images/sway-aint-got-the-answers.jpg",
+            "static/images/i-feel-it.jpg",
+            "static/images/3377081-walter+white.jpg",
+            "static/images/old-spice-terry-crews-brain-explodes.jpg",
+            "static/images/dodgeball_fran.jpeg",
+            "static/images/1250991947631.jpg",
+            "static/images/rtx1gzco.jpg",
+            "static/images/top-funny-memes-06.jpg",
         ],
 
         createPlayer: function(e) {
@@ -26,10 +26,10 @@ function (
             var picture = _.sample(this.IMAGES); 
             var username = React.findDOMNode(this.refs.username).value.trim();
 
-            if (username.length > 25) {
-                alert('Username must be less than 25 characters!');
+            if (username.length < 4 || username.length > 25) {
+                alert('Username must be between 4-25 characters!');
                 return;
-            };
+            }
 
             var currentPlayer = new PlayerModel({username: username, picture: picture});
             this.props.onPlayerCreated(currentPlayer);
@@ -45,4 +45,3 @@ function (
         }
     });
 });
-

@@ -38,8 +38,8 @@ function (
                                        success: function(game) {
                                            self.props.onGameCodeRetrieved({game: game, currentPlayer: player});
                                        },
-                                       error: function() {
-                                           console.log("View recieved an error");
+                                       error: function(error) {
+                                           console.log("View recieved an error:" + error);
                                        }
             });
         },

@@ -19,7 +19,7 @@ function (
                 gameId: this.props.game.get('_id')
             });
 
-            this.socket.on('mafia_action', this._renderNightAction);
+            this.mafia.on('mafia_action', this._renderNightAction);
             this.mafia.on('kill_complete', this._renderRoleActionResults);
         },
 
