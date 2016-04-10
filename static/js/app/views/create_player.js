@@ -26,8 +26,8 @@ function (
             var picture = _.sample(this.IMAGES); 
             var username = React.findDOMNode(this.refs.username).value.trim();
 
-            if (username.length < 4 || username.length > 25) {
-                alert('Username must be between 4-25 characters!');
+            if (username.length < 1 || username.length > 25) {
+                alert('Username must be between 1-25 characters!');
                 return;
             }
 
