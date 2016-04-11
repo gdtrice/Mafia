@@ -4,6 +4,7 @@ define([
     "socket.io",
     "constants",
     "views/day_council",
+    "views/kill_results",
     "views/night_wait"
 ],
 function (
@@ -12,6 +13,7 @@ function (
     io,
     CONSTANTS,
     DayCouncilView,
+    KillResultsView,
     NightWaitView
     ) {
     return {
@@ -26,6 +28,7 @@ function (
                          nightWait: false,
                          dayAction: false,
                          killResult: null,
+                         voteAction: false,
                          result: null},
 
         _renderNightAction: function() {
@@ -33,6 +36,7 @@ function (
                            dayAction: false,
                            nightWait: false,
                            killResult: null,
+                           voteAction: false,
                            result: null});
         },
 
@@ -41,6 +45,7 @@ function (
                            dayAction: false,
                            nightWait: true,
                            killResult: null,
+                           voteAction: false,
                            result: null});
 
             this.socket.emit(roleDoneEmitter, {gameId: this.props.game.get('_id')});
@@ -53,6 +58,7 @@ function (
                            nightWait: false,
                            dayAction: false,
                            killResult: null,
+                           voteAction: false,
                            result: data.result});
         },
 
@@ -63,6 +69,7 @@ function (
                            dayAction: true,
                            nightWait: false,
                            killResult: data.killedPlayer,
+                           voteAction: false,
                            result: null});
         },
 
@@ -70,7 +77,12 @@ function (
             var self = this;
             this.props.game.fetch({
                 success: function(resp, status) {
-                    self.setState({voting: true});
+                    self.setState({nightAction: false,
+                                   dayAction: false,
+                                   nightWait: false,
+                                   killResult: null,
+                                   voteAction: true,
+                                   result: null});
                 },
                 error: function(resp, status) {
                     console.log(status);
@@ -93,9 +105,14 @@ function (
                         <div>  {this.state.result}  </div>
                 );
             } else if (this.state.dayAction === true) {
+                _.delay(this._renderVote, CONSTANTS.NIGHT_DELAY);
                 return (
-                        <DayCouncilView killedPlayer={ this.state.killResult } game={ this.props.game} />
+                        <KillResultsView killedPlayer={ this.state.killResult } game={ this.props.game} />
                 );
+            } else if (this.state.voteAction === true) {
+                return (
+                        <DayCouncilView game={ this.props.game } />
+               );
             }
             var tempStyle = {
                 width: "100px",

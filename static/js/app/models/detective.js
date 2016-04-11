@@ -8,12 +8,12 @@ function (
     ) {
     return PlayerModel.extend({
         initialize: function() {
+            this.socket = io();
+            this.socket.on('investigate_registered', this._notifyResults.bind(this));
             this.socket.on('detective_action', this._notifyNightAction.bind(this));
         },
 
         investigate: function(suspect) {
-            this.socket = io();
-            this.socket.on('investigate_registered', this._notifyResults.bind(this));
             this.socket.emit('investigate', {
                 player: suspect.get('username'),
                 gameId: this.get('gameId')

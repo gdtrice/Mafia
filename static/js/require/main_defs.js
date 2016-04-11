@@ -35,6 +35,7 @@ requirejs.config({
         "views/detective" : "build/views/detective",
         "views/doctor" : "build/views/doctor",
         "views/game_room" : "build/views/game_room",
+        "views/kill_results" : "build/views/kill_results",
         "views/mafia" : "build/views/mafia",
         "views/night_wait" : "build/views/night_wait",
         "views/player_list" : "build/views/player_list",
