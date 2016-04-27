@@ -123,4 +123,16 @@ router.get('/games/:id/start', function(req, res) {
     });
 });
 
+/* GET rounds for a specific game */
+router.get('/rounds/:game_id', function(req, res) {
+    var db = req.db;
+    var roundCollection = db.get('roundcollection');
+
+    // TODO: SUPER HACK!!! Make this query better!!!!!!!
+    roundCollection.find({game_id: req.params.game_id }, {}, function(e, docs) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(docs[0]));
+    });
+});
+
 module.exports = router;

@@ -37,17 +37,24 @@ gs = function GameSocket(server) {
                 isUserMafia = (player.role.name == "mafia");
                 var roundData = {game_id: data.gameId,
                                  create_date: Date.now()};
-                roundData.night_data = {player_investigated: player.username,
-                                       player_kill_target: null,
-                                       player_save_target: null};
+
+                // TODO: Maybe put a create date in here for each round?
+                roundData.night_data = [{player_investigated: player.username,
+                                        player_kill_target: null,
+                                        player_save_target: null}];
 
                 var roundCollection = db.get('roundcollection');
-                roundCollection.insert(roundData, function(error, doc) {
-                    // do something
+                roundCollection.find({game_id: data.gameId}, {}, function(e, docs) {
+                    if(docs.length == 0) {
+                        // This is the first round
+                        roundCollection.insert(roundData);
+                    } else {
+                        // TODO: do update here
+                    }
                 });
-            });
 
-            io.to(data.gameId).emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
+                io.to(data.gameId).emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
+            });
         });
 
         socket.on('investigate_done', function(data) {
@@ -55,23 +62,19 @@ gs = function GameSocket(server) {
         });
 
         socket.on('kill', function(data) {
-            // TODO: check if this is the correct user (i.e. mafia)
             var roundCollection = db.get('roundcollection');
+            roundCollection.find({game_id: data.gameId}, {}, function(e, docs) {
+                if(docs.length == 0) {
+                    // order is broken, throw error
+                    throw 'out of order mafia kill target';
+                } else {
+                    var round = _.last(docs[0].night_data);
+                    round.player_kill_target = data.player;
+                    roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
+                }
 
-            // TODO: SUPER HACK!!! Make this query better!!!!!!!
-            roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
-
-                // can we use the current doc instead of doing another query??
-                roundCollection.update(
-                    { game_id: data.gameId },
-                    { $set: 
-                        {
-                            "night_data.player_kill_target": data.player
-                        }
-                });
+                io.to(data.gameId).emit('kill_registered', {result: "Will attempt to kill " + data.player});
             });
-
-            io.to(data.gameId).emit('kill_registered', {result: "Will attempt to kill " + data.player});
         });
 
         socket.on('kill_done', function(data) {
@@ -79,20 +82,16 @@ gs = function GameSocket(server) {
         });
 
         socket.on('save', function(data) {
-            // TODO: check if this is the correct user (i.e. doctor)
             var roundCollection = db.get('roundcollection');
-
-            // TODO: SUPER HACK!!! Make this query better!!!!!!!
-            roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
-
-                // can we use the current doc instead of doing another query??
-                roundCollection.update(
-                    { game_id: data.gameId },
-                    { $set: 
-                        {
-                            "night_data.player_save_target": data.player
-                        }
-                });
+            roundCollection.find({game_id: data.gameId}, {}, function(e, docs) {
+                if(docs.length == 0) {
+                    // order is broken, throw error
+                    throw 'out of order detective save target';
+                } else {
+                    var round = _.last(docs[0].night_data);
+                    round.player_save_target = data.player;
+                    roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
+                }
 
                 io.to(data.gameId).emit('save_registered', {result: data.player + " will live to fight another day"});
             });
@@ -105,51 +104,33 @@ gs = function GameSocket(server) {
             var roundCollection = db.get('roundcollection');
             roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
 
-                var killTarget = docs[0].night_data.player_kill_target;
-                var saveTarget = docs[0].night_data.player_save_target;
+                if(docs.length == 0) {
+                    // order is broken, throw error
+                } else {
+                    var round = _.last(docs[0].night_data);
+                    var killTarget = round.player_kill_target;
+                    var saveTarget = round.player_save_target;
 
-                // If the kill target is not the saved player. That player gets killed.
-                if (killTarget !== saveTarget) {
-                    killedPlayer = killTarget;
-                    var gameCollection = db.get("gamecollection");
-                    gameCollection.find({ _id: data.gameId}, {}, function(e, games) {
-                        var player = _.findWhere(games[0].players, {username: killTarget});
-                        player.role.is_alive = false;
+                    // If the kill target is not the saved player. That player gets killed.
+                    if (killTarget !== saveTarget) {
+                        killedPlayer = killTarget;
+                        var gameCollection = db.get("gamecollection");
+                        gameCollection.find({ _id: data.gameId}, {}, function(e, games) {
+                            var player = _.findWhere(games[0].players, {username: killTarget});
+                            player.role.is_alive = false;
 
-                        //TODO: Do we need to requery?
-                        gameCollection.update({ _id: data.gameId },{$set: {players: games[0].players}});
-                    });
+                            //TODO: Do we need to requery?
+                            roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
+                        });
+                    }
+                    roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs }});
                 }
-
                 io.to(data.gameId).emit('night_results', {killedPlayer: killedPlayer});
             });
         });
 
         socket.on('day_council_start', function(data) {
-            var killedPlayer = null;
-
-            // TODO: SUPER HACK!!! Make this query better!!!!!!!
-            var roundCollection = db.get('roundcollection');
-            roundCollection.find({game_id: data.gameId }, {}, function(e, docs) {
-
-                var killTarget = docs[0].night_data.player_kill_target;
-                var saveTarget = docs[0].night_data.player_save_target;
-
-                // If the kill target is not the saved player. That player gets killed.
-                if (killTarget !== saveTarget) {
-                    killedPlayer = killTarget;
-                    var gameCollection = db.get("gamecollection");
-                    gameCollection.find({ _id: data.gameId}, {}, function(e, games) {
-                        var player = _.findWhere(games[0].players, {username: killTarget});
-                        player.isAlive = false;
-
-                        //TODO: Do we need to requery?
-                        gameCollection.update({ _id: data.gameId },{$set: {players: games[0].players}});
-                    });
-                }
-
                 io.to(data.gameId).emit('day_action', {killedPlayer: killedPlayer});
-            });
         });
     });
 };
