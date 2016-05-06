@@ -42,8 +42,11 @@ requirejs.config({
         "views/player_picker_list" : "build/views/player_picker_list",
         "views/player_picker_item" : "build/views/player_picker_item",
         "views/player_item" : "build/views/player_item",
+        "views/townsperson" : "build/views/townsperson",
+
+        // mixins
         "views/role_mixin" : "build/views/role_mixin",
-        "views/townsperson" : "build/views/townsperson"
+        "views/polling_mixin" : "build/views/polling_mixin",
     }
 });
 

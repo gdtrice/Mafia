@@ -7,7 +7,8 @@ define([
     "views/mafia",
     "views/detective",
     "views/doctor",
-    "views/townsperson"
+    "views/townsperson",
+    "views/polling_mixin"
 ],
 function (
     React,
@@ -18,21 +19,23 @@ function (
     MafiaView,
     DetectiveView,
     DoctorView,
-    TownspersonView
+    TownspersonView,
+    PollingMixin
     ) {
     return React.createClass({
-        POLL_INTERVAL: 3000, // 3 seconds
+        mixins: [PollingMixin],
 
         getInitialState: function() {
             return {game: this.props.game};
         },
 
-        componentDidMount: function() {
-            this.poll = setInterval(this.loadPlayers, this.POLL_INTERVAL);
+        componentWillMount: function() {
+            // Init the mixin with necessary vars
+            this.POLL_FUNCTION = this._getGameState;
         },
 
-        loadPlayers: function() {
-            this._updateGameState();            
+        componentDidMount: function() {
+            this.startPolling();
         },
 
         startGame: function() {
@@ -40,7 +43,7 @@ function (
             this.setState({game: this.props.game});
         },
 
-        _updateGameState: function() {
+        _getGameState: function() {
             var self = this;
             this.props.game.fetch({
                 success: function(resp, status) {
@@ -54,7 +57,7 @@ function (
 
         render: function() {
             if (_.isNumber(this.state.game.get('startDate'))) {
-                clearInterval(this.poll);
+                this.stopPolling();
                 var stateDiv = (<div></div>);
                 // This is hacky, props.currentPlayer should continuosly update...
                 var currentPlayer = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));

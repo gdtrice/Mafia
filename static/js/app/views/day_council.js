@@ -1,18 +1,26 @@
 define([
     "react",
     "constants",
-    "underscore"
+    "underscore",
+    "views/player_picker_list"
 ],
 function (
     React,
     CONSTANTS,
-    _
+    _,
+    PlayerPickerList
     ) {
-    // TODO: rename to kill results
     return React.createClass({
+        vote: function(player) {
+            // TODO: add vote
+        },
+
         render: function() {
             return (
-                <div> view is ready for code...let's get it</div>
+                <div>
+                    <div> Who do you think is the killer!? </div>
+                    <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.vote } />
+                </div>
             );
         }
     });
