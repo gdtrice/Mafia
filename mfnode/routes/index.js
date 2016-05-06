@@ -94,7 +94,7 @@ router.get('/games/:id/start', function(req, res) {
             _.each(players, function(player) {
                 player.role = { name: 'townsperson',
                                 is_alive: true,
-                                picture: 'http://www.renfair.com/images/nyrf_amenities.jpg'
+                                picture: 'static/images/townsperson.jpg'
                             };
             });
 
@@ -102,17 +102,17 @@ router.get('/games/:id/start', function(req, res) {
             var actionRolePlayers = _.sample(players, 3);
             actionRolePlayers[0].role = {name: 'mafia',
                                          is_alive: true,
-                                         picture: 'http://www.abcjogos.com.br/wp-content/uploads/2011/12/The-Godfather.jpg?7de635'
+                                         picture: 'static/images/mafia.jpg'
                         };
 
             actionRolePlayers[1].role = {name: 'doctor',
                                          is_alive: true,
-                                         picture: 'http://www.how-to-draw-cartoons-online.com/image-files/cartoon-doctor-16.gif'
+                                         picture: 'static/images/doctor.gif'
                         };
 
             actionRolePlayers[2].role = {name: 'detective',
                                          is_alive: true,
-                                         picture: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQJeD7EIjfiy_IcOI0dguTrKtfVlFmnDUSM9UKVM8QLNhzaaOMkXw'
+                                         picture: 'static/images/detective.png'
                         };
 
             collection.update({ _id: req.params.id },{$set: {players: players, startDate: Date.now()}}, console.log);
