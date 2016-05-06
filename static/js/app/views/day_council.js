@@ -8,7 +8,7 @@ function (
     React,
     CONSTANTS,
     _,
-    PlayerPickerList
+    PlayerPickerListView
     ) {
     return React.createClass({
         vote: function(player) {
