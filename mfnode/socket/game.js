@@ -12,8 +12,11 @@ gs = function GameSocket(server) {
             console.log('connection established from client:' + socket.id);
             var collection = db.get('gamecollection');
             // Kinda hacky...Count the users in the room before starting
-            if (Object.keys(io.nsps["/"].adapter.rooms[data.gameId]).length === data.totalPlayers) {
-                io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
+            if (io.of("/").adapter.rooms[data.gameId].length === data.totalPlayers) {
+                //io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
+                //io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
+                //io.emit('detective_action', 'server can hear you loud and clear'); 
+                io.of("/").adapter.rooms[data.gameId].emit('detective_action', 'server can hear you loud and clear');
             }
         });
 
@@ -42,6 +45,7 @@ gs = function GameSocket(server) {
                 roundData.night_data = [{player_investigated: player.username,
                                         player_kill_target: null,
                                         player_save_target: null}];
+                roundData.day_data = []; // init day_data for later use
 
                 var roundCollection = db.get('roundcollection');
                 roundCollection.find({game_id: data.gameId}, {}, function(e, docs) {

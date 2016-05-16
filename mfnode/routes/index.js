@@ -122,6 +122,17 @@ router.get('/games/:id/start', function(req, res) {
         res.send(JSON.stringify(document));
     });
 });
+/* GET existing rounds */
+router.get('/rounds/', function(req, res) {
+    var db = req.db;
+    var roundCollection = db.get('roundcollection');
+
+    // TODO: SUPER HACK!!! Make this query better!!!!!!!
+    roundCollection.find({}, {}, function(e, docs) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(docs));
+    });
+});
 
 /* GET rounds for a specific game */
 router.get('/rounds/:game_id', function(req, res) {
@@ -134,5 +145,36 @@ router.get('/rounds/:game_id', function(req, res) {
         res.send(JSON.stringify(docs[0]));
     });
 });
+
+/* POST a vote to a specific game */
+router.post('/vote/:game_id', function(req, res) {
+    var db = req.db;
+    var roundCollection = db.get('roundcollection');
+
+    // TODO: SUPER HACK!!! Make this query better!!!!!!!
+    roundCollection.find({game_id: req.params.game_id }, {}, function(e, docs) {
+        // TODO: Implement update if current pattern to avoid inconsistencies
+        // https://docs.mongodb.com/manual/tutorial/update-if-current/
+        if(docs.length != 1) {
+            var roundInfo = docs[0];
+            var dayData = roundInfo.day_data ? _.last(roundInfo.day_data) : {};
+            if (_.findWhere(dayData, {nominee: req.body.nominee})) {
+                // append to voters array
+                dayData[req.body.nominee].voters.push(req.body.voter);
+            } else {
+                // create new voters array
+                var nomineeData = {nominee: req.body.nominee,
+                                   voters: [req.body.voter]};
+                roundData.day_data.push(nomineeData);
+            }
+            roundCollection.update({game_id: data.gameId}, { $set: { day_data: docs[0].day_data }});
+        } else {
+        }
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify());
+    });
+});
+
 
 module.exports = router;

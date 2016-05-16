@@ -11,7 +11,6 @@ function (
         idAttribute: '_id',
 
         parse: function(json) {
-            // make the players array a backbone collection
             json.players = new PlayerCollection(json.players, { gameId: json._id });
             return json;
         },

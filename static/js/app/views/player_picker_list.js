@@ -14,8 +14,6 @@ function (
         },
         disablePicker: function(player) {
             //show spinner and call the callback
-            console.log('player picked:');
-            console.log(player);
             this.setState({disabled: true});
             this.props.onPlayerSelected(player);
         },
@@ -42,4 +40,3 @@ function (
         }
     });
 });
-
