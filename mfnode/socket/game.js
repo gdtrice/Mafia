@@ -14,9 +14,7 @@ gs = function GameSocket(server) {
             // Kinda hacky...Count the users in the room before starting
             if (io.of("/").adapter.rooms[data.gameId].length === data.totalPlayers) {
                 //io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
-                //io.to(data.gameId).emit('detective_action', 'server can hear you loud and clear'); 
-                //io.emit('detective_action', 'server can hear you loud and clear'); 
-                io.of("/").adapter.rooms[data.gameId].emit('detective_action', 'server can hear you loud and clear');
+                io.emit('detective_action', 'server can hear you loud and clear'); 
             }
         });
 
@@ -57,12 +55,12 @@ gs = function GameSocket(server) {
                     }
                 });
 
-                io.to(data.gameId).emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
+                io.emit('investigate_registered', {result: "Results from your investigation: " + isUserMafia});
             });
         });
 
         socket.on('investigate_done', function(data) {
-            io.to(data.gameId).emit('mafia_action', 'server can hear you loud and clear'); 
+            io.emit(data.gameId).emit('mafia_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('kill', function(data) {
@@ -77,12 +75,12 @@ gs = function GameSocket(server) {
                     roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
                 }
 
-                io.to(data.gameId).emit('kill_registered', {result: "Will attempt to kill " + data.player});
+                io.emit('kill_registered', {result: "Will attempt to kill " + data.player});
             });
         });
 
         socket.on('kill_done', function(data) {
-            io.to(data.gameId).emit('doctor_action', 'server can hear you loud and clear'); 
+            io.emit(data.gameId).emit('doctor_action', 'server can hear you loud and clear'); 
         });
 
         socket.on('save', function(data) {
@@ -97,7 +95,7 @@ gs = function GameSocket(server) {
                     roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
                 }
 
-                io.to(data.gameId).emit('save_registered', {result: data.player + " will live to fight another day"});
+                io.emit('save_registered', {result: data.player + " will live to fight another day"});
             });
         });
 
@@ -129,12 +127,12 @@ gs = function GameSocket(server) {
                     }
                     roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs }});
                 }
-                io.to(data.gameId).emit('night_results', {killedPlayer: killedPlayer});
+                io.emit('night_results', {killedPlayer: killedPlayer});
             });
         });
 
         socket.on('day_council_start', function(data) {
-                io.to(data.gameId).emit('day_action', {killedPlayer: killedPlayer});
+                io.emit('day_action', {killedPlayer: killedPlayer});
         });
     });
 };
