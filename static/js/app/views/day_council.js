@@ -14,7 +14,10 @@ function (
     ) {
     return React.createClass({
         vote: function(player) {
-            // TODO: add vote
+            var bb = new BallotBox({_id: this.props.game.id,
+                                    voter: this.props.game.get('currentPlayer').get('username'),
+                                    nominee: player.get('username')});
+            bb.vote();
         },
 
         render: function() {

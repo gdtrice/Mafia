@@ -20,6 +20,7 @@ function (
                                picture: picture };
 
             var newPlayer = this.get('players').addNewPlayer(playerDict);
+            this.set('currentPlayer', newPlayer);
             return newPlayer;
         },
 

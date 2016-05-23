@@ -147,7 +147,7 @@ router.get('/rounds/:game_id', function(req, res) {
 });
 
 /* POST a vote to a specific game */
-router.post('/vote/:game_id', function(req, res) {
+router.put('/vote/:game_id', function(req, res) {
     var db = req.db;
     var roundCollection = db.get('roundcollection');
 
@@ -155,24 +155,32 @@ router.post('/vote/:game_id', function(req, res) {
     roundCollection.find({game_id: req.params.game_id }, {}, function(e, docs) {
         // TODO: Implement update if current pattern to avoid inconsistencies
         // https://docs.mongodb.com/manual/tutorial/update-if-current/
-        if(docs.length != 1) {
+        if(docs.length >= 1) {
             var roundInfo = docs[0];
-            var dayData = roundInfo.day_data ? _.last(roundInfo.day_data) : {};
-            if (_.findWhere(dayData, {nominee: req.body.nominee})) {
-                // append to voters array
-                dayData[req.body.nominee].voters.push(req.body.voter);
+            var dayData = roundInfo.day_data;
+            if (dayData) {
+                // We can edit the data directly
+                var nomineeRecord = _.findWhere(dayData, {nominee: req.body.nominee});
+                if (nomineeRecord) {
+                    // append to voters array
+                    nomineeRecord.voters.push(req.body.voter);
+                } else {
+                    roundInfo.day_data.push({nominee: req.body.nominee,
+                                             voters: [req.body.voter]});
+                }
+
+                roundCollection.update({game_id: req.params.game_id}, { $set: { day_data: roundInfo.day_data }});
             } else {
-                // create new voters array
-                var nomineeData = {nominee: req.body.nominee,
-                                   voters: [req.body.voter]};
-                roundData.day_data.push(nomineeData);
+                roundInfo.day_data.push({nominee: req.body.nominee,
+                                         voters: [req.body.voter]});
+                roundCollection.update({game_id: req.params.game_id}, { $set: { day_data: roundInfo.day_data }});
             }
-            roundCollection.update({game_id: data.gameId}, { $set: { day_data: docs[0].day_data }});
         } else {
+            // Do something
         }
 
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify());
+        res.send(JSON.stringify('ok'));
     });
 });
 

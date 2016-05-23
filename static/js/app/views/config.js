@@ -36,6 +36,8 @@ function (
             var self = this;
             this.gameConfig.createGame(player.get("username"), player.get("picture"), {
                                        success: function(game) {
+                                           // XXX: Super Hack to set currentPlayer for new game...
+                                           game.set('currentPlayer', game.get('players').first());
                                            self.props.onGameCodeRetrieved({game: game, currentPlayer: player});
                                        },
                                        error: function(error) {

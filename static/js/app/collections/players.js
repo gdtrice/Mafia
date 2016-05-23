@@ -21,10 +21,6 @@ function (
         addNewPlayer: function(player) {
             // TODO: make the sever respond with the returned row
             return this.create(player, {async: false});
-        },
-
-        getMyPlayer: function() {
-            return this.findWhere({isMe: True});
         }
     });
 });
