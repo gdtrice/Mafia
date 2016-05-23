@@ -35,7 +35,7 @@ function (
             var nightActionElement = (
                 <div>
                     <div> Its night time player...who do you want to kill? </div>
-                    <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.killPlayer } />
+                    <PlayerPickerListView players={ this.props.game.getActivePlayers() } onPlayerSelected={ this.killPlayer } />
                 </div>
             );
 

@@ -26,7 +26,7 @@ function (
 
             var playerItems = [];
             var self = this;
-            this.props.players.each(function(item) {
+            _.each(this.props.players, function(item) {
                 playerItems.push(<PlayerPickerItemView key={item.get('username')} player={ item } onPlayerSelected={ self.disablePicker }/>);
             });
 

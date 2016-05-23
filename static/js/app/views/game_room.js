@@ -59,8 +59,7 @@ function (
             if (_.isNumber(this.state.game.get('startDate'))) {
                 this.stopPolling();
                 var stateDiv = (<div></div>);
-                // This is hacky, props.currentPlayer should continuosly update...
-                var currentPlayer = this.state.game.getPlayerRole(this.props.currentPlayer.get('username'));
+                var currentPlayer = this.state.game.getCurrentPlayer();
                 switch (currentPlayer.get('role').name) {
                     case 'mafia':
                         return (
@@ -96,7 +95,7 @@ function (
                 <div className="game-room">
                     <div>Game Room: { this.state.game.id }</div>
                     <div>Current Players:</div>
-                    <PlayerList players={ this.state.game.get('players') } />
+                    <PlayerList players={ this.state.game.get('players').toArray() } />
                     { stateDiv }
                 </div>
             );

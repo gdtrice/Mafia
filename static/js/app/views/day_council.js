@@ -24,7 +24,7 @@ function (
             return (
                 <div>
                     <div> Who do you think is the killer!? </div>
-                    <PlayerPickerListView players={ this.props.game.get('players') } onPlayerSelected={ this.vote } />
+                    <PlayerPickerListView players={ this.props.game.getActivePlayers() } onPlayerSelected={ this.vote } />
                 </div>
             );
         }

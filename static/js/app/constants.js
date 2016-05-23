@@ -5,7 +5,7 @@ function (
     _
     ) {
     return {
-        NIGHT_DELAY: 1000, 
+        NIGHT_DELAY: 1000,
         GAME_TYPES: {
             NEW: 'new',
             EXISTING: 'existing',

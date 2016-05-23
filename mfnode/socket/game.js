@@ -122,10 +122,9 @@ gs = function GameSocket(server) {
                             player.role.is_alive = false;
 
                             //TODO: Do we need to requery?
-                            roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs[0].night_data }});
+                            gameCollection.update({_id: data.gameId}, { $set: { players: games[0].players }});
                         });
                     }
-                    roundCollection.update({game_id: data.gameId}, { $set: { night_data: docs }});
                 }
                 io.emit('night_results', {killedPlayer: killedPlayer});
             });
