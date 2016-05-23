@@ -2,13 +2,15 @@ define([
     "react",
     "constants",
     "underscore",
-    "views/player_picker_list"
+    "views/player_picker_list",
+    "models/ballot_box"
 ],
 function (
     React,
     CONSTANTS,
     _,
-    PlayerPickerListView
+    PlayerPickerListView,
+    BallotBox
     ) {
     return React.createClass({
         vote: function(player) {

@@ -9,17 +9,12 @@ function (
                 return {
                     username: "Empty Username",
                     picture: "Insert url to default pic",
+                    isMe: False
                 }
         },
 
         setRole: function(role) {
             this.role = role;
-        },
-
-        nominateToKill: function() {
-        },
-
-        voteToKill: function() {
-        },
+        }
     });
 });

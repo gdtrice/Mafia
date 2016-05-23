@@ -21,6 +21,7 @@ requirejs.config({
         "models/mafia" : "app/models/mafia",
         "models/player" : "app/models/player",
         "models/user" : "app/models/user",
+        "models/ballot_box" : "app/models/ballot_box",
 
         // collections
         "collections/games" : "app/collections/games",
