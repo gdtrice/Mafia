@@ -142,7 +142,7 @@ router.get('/rounds/:game_id', function(req, res) {
     // TODO: SUPER HACK!!! Make this query better!!!!!!!
     roundCollection.find({game_id: req.params.game_id }, {}, function(e, docs) {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(docs[0]));
+        res.send(JSON.stringify(docs));
     });
 });
 

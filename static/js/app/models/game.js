@@ -1,10 +1,12 @@
 define([
     "backbone",
-    "collections/players"
+    "collections/players",
+    "collections/rounds"
 ],
 function (
     Backbone,
-    PlayerCollection
+    PlayerCollection,
+    RoundCollection
     ) {
     return Backbone.Model.extend({
         urlRoot: '/games',
@@ -12,6 +14,7 @@ function (
 
         parse: function(json) {
             json.players = new PlayerCollection(json.players, { gameId: json._id });
+            json.rounds = new RoundCollection(json._id);
             return json;
         },
 
@@ -54,6 +57,11 @@ function (
             return this.get('players').filter(function(player) {
                 return player.get('role').is_alive && player.get('username') != self.get('currentPlayer').get('username'); 
             });
+        },
+
+        getCurrentRound: function() {
+            this.get('rounds').fetch({async: false});
+            return this.get('rounds').last();
         }
     });
 });

@@ -22,10 +22,12 @@ requirejs.config({
         "models/player" : "app/models/player",
         "models/user" : "app/models/user",
         "models/ballot_box" : "app/models/ballot_box",
+        "models/round" : "app/models/round",
 
         // collections
         "collections/games" : "app/collections/games",
         "collections/players": "app/collections/players",
+        "collections/rounds": "app/collections/rounds",
 
         // views
         // pointing to build for react jsx compiled files
