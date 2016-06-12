@@ -33,7 +33,7 @@ function (
             }); 
         },
 
-        joinGame: function(gameCode, username, picture, successCb, errorCb) {
+        joinGame: function(gameCode, user, successCb, errorCb) {
             if(_.isEmpty(gameCode) || _.isEmpty(username)) {
                 console.log("gameCode or username is empty or undefined, game could not be joined");
                 return;
@@ -42,7 +42,7 @@ function (
             // TODO: need a better way to query for the game
             var game = new this.model({_id: gameCode});
             game.fetch({async: false});
-            game.addPlayer(username, picture);
+            game.addPlayer(user);
             return game;
         }
     });
