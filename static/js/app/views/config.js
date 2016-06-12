@@ -23,7 +23,7 @@ function (
 
         joinGame: function(player) {
 
-            var joinedGame = this.gameConfig.joinGame(this.state.gameCode, player.get("username"), player.get("picture"));
+            var joinedGame = this.gameConfig.joinGame(this.state.gameCode, player);
 
             if(_.isEmpty(joinedGame)){
                 // error callback
@@ -34,7 +34,7 @@ function (
 
         createGame: function(player) {
             var self = this;
-            this.gameConfig.createGame(player.get("username"), player.get("picture"), {
+            this.gameConfig.createGame(player, {
                                        success: function(game) {
                                            // XXX: Super Hack to set currentPlayer for new game...
                                            game.set('currentPlayer', game.get('players').first());

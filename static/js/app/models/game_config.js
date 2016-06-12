@@ -16,14 +16,14 @@ function (
             this.games = new Games();
         },
 
-        createGame: function(username, picture, options) {
+        createGame: function(user, options) {
             // TODO: This should be in Game model...
             var newGame = {
-                "createdBy" : username,
+                "createdBy" : user.get('username'),
                 "players": [
                         {
-                            "username": username,
-                            "picture": picture
+                            "username": user.get('username'),
+                            "picture": user.get('picture')
                         }
                 ]
             };
@@ -41,8 +41,8 @@ function (
                             ); 
         },
 
-        joinGame: function(gameCode, username, picture) {
-            return this.games.joinGame(gameCode, username, picture);
+        joinGame: function(gameCode, user) {
+            return this.games.joinGame(gameCode, user);
         },
 
     });

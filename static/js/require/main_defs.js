@@ -44,6 +44,7 @@ requirejs.config({
         "views/player_picker_item" : "build/views/player_picker_item",
         "views/player_item" : "build/views/player_item",
         "views/townsperson" : "build/views/townsperson",
+        "views/nomination_results" : "build/views/nomination_results",
 
         // mixins
         "views/role_mixin" : "build/views/role_mixin",

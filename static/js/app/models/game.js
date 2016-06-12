@@ -15,9 +15,9 @@ function (
             return json;
         },
 
-        addPlayer: function(username, picture) {
-            var playerDict = { username: username,
-                               picture: picture };
+        addPlayer: function(user) {
+            var playerDict = { username: user.get('username'),
+                               picture: user.get('picture') };
 
             var newPlayer = this.get('players').addNewPlayer(playerDict);
             this.set('currentPlayer', newPlayer);
